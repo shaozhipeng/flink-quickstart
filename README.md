@@ -245,7 +245,7 @@ my-topic-0-99-1554361349397
 
 ##### RocketMQ
 
-Producer：SyncProducer AsyncProducer OnewayProducer
+Producer：SyncProducer AsyncProducer OnewayProducer  
 Consumer：DefaultMQPushConsumer，DefaultMQPullConsumer
 
 
@@ -253,10 +253,10 @@ Consumer：DefaultMQPushConsumer，DefaultMQPullConsumer
 
 git init
 
-git add src
-git add pom.xml
-git add README.md
+git add src  
+git add pom.xml  
+git add README.md  
 
-git commit -m 'flink-quickstart first commit'
-git remote add origin https://github.com/shaozhipeng/flink-quickstart.git
-git push -u origin master
+git commit -m 'flink-quickstart first commit'  
+git remote add origin https://github.com/shaozhipeng/flink-quickstart.git  
+git push -u origin master 
