@@ -43,6 +43,8 @@ public class KafkaStreamSqlGroupByEventTime {
         FlinkKafkaConsumer011<POJO> consumer = new FlinkKafkaConsumer011<>("testPOJO", new POJOSchema(), kafkaProps);
         DataStream<POJO> pojoDataStream = env
                 .addSource(consumer)
+                // public SingleOutputStreamOperator<T> assignTimestampsAndWatermarks(AssignerWithPeriodicWatermarks<T> timestampAndWatermarkAssigner)
+                // 要把SingleOutputStreamOperator返回给pojoDataStream
                 .assignTimestampsAndWatermarks(extractor);
 
 //        pojoDataStream.print();
