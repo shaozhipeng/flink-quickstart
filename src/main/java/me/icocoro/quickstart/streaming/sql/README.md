@@ -146,3 +146,26 @@ Specify the start reading position: By default, the Kafka source will start read
 #### JDBCAppendTableSink
 
 #### JDBCOutputFormat
+
+#### DDL
+
+astyle,time_start,time_end,sum_energy,cnt,avg_age,day_date,topic,group_id
+
+```sql
+CREATE TABLE `t_pojo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `astyle` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `time_start` timestamp NULL DEFAULT NULL,
+  `time_end` timestamp NULL DEFAULT NULL,
+  `sum_energy` decimal(15,2) DEFAULT NULL,
+  `cnt` int(16) DEFAULT NULL,
+  `avg_age` int(16) DEFAULT NULL,
+  `day_date` date DEFAULT NULL,
+  `topic` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `group_id` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+```
+
+![image](http://images.icocoro.me/images/new/20190411.png)

@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Properties;
 
+/**
+ * 模拟往Kafka实时发送消息数据
+ */
 public class MessageProducer {
     private static final String LOCAL_KAFKA_BROKER = "localhost:9092";
 

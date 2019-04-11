@@ -11,6 +11,9 @@ import org.apache.flink.types.Row;
 
 import java.util.Properties;
 
+/**
+ * 根据处理时间窗口进行分组统计-注意处理时间是没有+8小时的
+ */
 public class KafkaStreamSqlGroupByProcessingTime {
     private static final String LOCAL_KAFKA_BROKER = "localhost:9092";
     private static final String GROUP_ID = "GroupID4PT";

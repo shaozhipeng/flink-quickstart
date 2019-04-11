@@ -3,6 +3,9 @@ package me.icocoro.quickstart.streaming;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * 业务数据封装的实体类
+ */
 public class POJO implements Serializable {
     private static final long serialVersionUID = -4281155263332879073L;
     private String aid;

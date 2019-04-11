@@ -9,6 +9,9 @@ import org.apache.flink.api.java.typeutils.TypeExtractor;
 
 import java.io.IOException;
 
+/**
+ * 也可以使用默认提供的SimpleStringSchema
+ */
 public class POJOSchema implements DeserializationSchema<POJO>, SerializationSchema<POJO> {
 
     private static final long serialVersionUID = 1415686761399038954L;
