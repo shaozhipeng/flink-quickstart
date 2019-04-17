@@ -1,9 +1,11 @@
 package me.icocoro.quickstart.streaming.sql;
 
+import me.icocoro.quickstart.streaming.ObjectSchema;
 import me.icocoro.quickstart.streaming.POJO;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.io.jdbc.JDBCAppendTableSink;
+import org.apache.flink.api.java.io.jdbc.JDBCOutputFormat;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -22,6 +24,7 @@ import java.util.Properties;
 public class KafkaStreamToJDBCTable {
     private static final String LOCAL_KAFKA_BROKER = "localhost:9092";
     private static final String GROUP_ID = KafkaStreamToJDBCTable.class.getSimpleName();
+    private static final String topic = "testPOJO";
 
     private final static AscendingTimestampExtractor extractor = new AscendingTimestampExtractor<POJO>() {
         private static final long serialVersionUID = -904965568992964982L;
@@ -46,9 +49,9 @@ public class KafkaStreamToJDBCTable {
         kafkaProps.setProperty("group.id", GROUP_ID);
         kafkaProps.setProperty("auto.offset.reset", "earliest");
 
-        String topic = "testPOJO";
+//        FlinkKafkaConsumer011<POJO> consumer = new FlinkKafkaConsumer011<>(topic, new POJOSchema(), kafkaProps);
+        FlinkKafkaConsumer011<POJO> consumer = new FlinkKafkaConsumer011<>(topic, new ObjectSchema<>(POJO.class), kafkaProps);
 
-        FlinkKafkaConsumer011<POJO> consumer = new FlinkKafkaConsumer011<>(topic, new POJOSchema(), kafkaProps);
         DataStream<POJO> pojoDataStream = env
                 .addSource(consumer)
                 // public SingleOutputStreamOperator<T> assignTimestampsAndWatermarks(AssignerWithPeriodicWatermarks<T> timestampAndWatermarkAssigner)
@@ -60,7 +63,7 @@ public class KafkaStreamToJDBCTable {
         tableEnv.registerDataStream("t_pojo", pojoDataStream, "aid, astyle, energy, age, rowtime.rowtime");
 
         String query =
-                "SELECT astyle, HOP_START(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_start, HOP_END(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_end, SUM(energy) AS sum_energy, COUNT(aid) AS cnt, CAST(AVG(age) AS INT) AS avg_age FROM t_pojo GROUP BY HOP(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND), astyle";
+                "SELECT astyle, HOP_START(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_start, HOP_END(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_end, SUM(energy) AS sum_energy, CAST(COUNT(aid) AS INT) AS cnt, CAST(AVG(age) AS INT) AS avg_age FROM t_pojo GROUP BY HOP(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND), astyle";
 
         Table table = tableEnv.sqlQuery(query);
 
@@ -69,7 +72,7 @@ public class KafkaStreamToJDBCTable {
                 Types.SQL_TIMESTAMP,
                 Types.SQL_TIMESTAMP,
                 Types.BIG_DEC,
-                Types.LONG,
+                Types.INT,
                 Types.INT
         };
 
@@ -83,8 +86,43 @@ public class KafkaStreamToJDBCTable {
                 .build();
 
         DataStream<Row> dataStream = tableEnv.toAppendStream(table, Row.class, tableEnv.queryConfig());
-        sink.emitDataStream(dataStream);
+        // 可以正常入库
+//        sink.emitDataStream(dataStream);
+
+        dataStream.print();
+
+        final JDBCOutputFormat jdbcOutputFormat = createJDBCOutputFormat();
+        // 并不会写到数据库表中
+        dataStream.writeUsingOutputFormat(jdbcOutputFormat);
+
+        // Oracle需要注意字段名称加上双引号
+        JDBCAppendTableSink sink2 = JDBCAppendTableSink.builder()
+                .setDrivername("oracle.jdbc.driver.OracleDriver")
+                .setDBUrl("jdbc:oracle:thin:@127.0.0.1:1521:schemaname")
+                .setUsername("username")
+                .setPassword("password")
+                .setQuery("INSERT INTO t_pojo (\"astyle\",\"time_start\",\"time_end\",\"sum_energy\",\"cnt\",\"avg_age\",\"day_date\",\"topic\",\"group_id\") VALUES (?,?,?,?,?,?,CURRENT_DATE(),'" + topic + "','" + GROUP_ID + "')")
+                .setParameterTypes(FIELD_TYPES)
+                .build();
 
         env.execute();
+    }
+
+    // JDBCOutputFormat
+    private static JDBCOutputFormat createJDBCOutputFormat() {
+        return JDBCOutputFormat.buildJDBCOutputFormat()
+                .setDBUrl(String.format("jdbc:mysql://127.0.0.1:3306/flink_demo?characterEncoding=utf8&useSSL=false"))
+                .setDrivername("com.mysql.jdbc.Driver")
+                .setUsername("root")
+                .setPassword("123456")
+                .setQuery(String.format("INSERT INTO t_pojo (astyle,time_start,time_end,sum_energy,cnt,avg_age,day_date,topic,group_id) VALUES (?,?,?,?,?,?,CURRENT_DATE(),'" + topic + "','" + GROUP_ID + "')"))
+                .setSqlTypes(new int[]{
+                        java.sql.Types.VARCHAR,
+                        java.sql.Types.TIMESTAMP,
+                        java.sql.Types.TIMESTAMP,
+                        java.sql.Types.DECIMAL,
+                        java.sql.Types.INTEGER,
+                        java.sql.Types.INTEGER})
+                .finish();
     }
 }

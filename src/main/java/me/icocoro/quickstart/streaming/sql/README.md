@@ -145,7 +145,26 @@ Specify the start reading position: By default, the Kafka source will start read
 
 #### JDBCAppendTableSink
 
-#### JDBCOutputFormat
+#### JDBCOutputFormat 无法保存数据，且会影响Stream本身数据的print输出
+
+调用dataStream.writeUsingOutputFormat时，数据不会保存到数据库，而且影响到了dataStream.print();？？？
+
+```java
+DataStream<Row> dataStream = tableEnv.toAppendStream(table, Row.class, tableEnv.queryConfig());
+
+dataStream.print();
+
+final JDBCOutputFormat jdbcOutputFormat = createJDBCOutputFormat();
+dataStream.writeUsingOutputFormat(jdbcOutputFormat);
+
+env.execute();
+```
+
+消息数据源
+
+```bash
+
+```
 
 #### DDL
 
@@ -169,3 +188,8 @@ CREATE TABLE `t_pojo` (
 ```
 
 ![image](http://images.icocoro.me/images/new/20190411.png)
+
+### Flink消费kafka不及时，出错重试导致重复计算和结果入库重复，切换别的输出Sink后数据丢失
+
+使用earliest，比如发送40条数据，窗口消费33条，另外7条，需要继续发送新的数据，才会被消费掉，即便重启程序-也要发送新的数据，才会消费上次"未及时"消费的数据。  
+除非修改新的group_id后，会从头消费全部数据。

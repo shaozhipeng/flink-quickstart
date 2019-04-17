@@ -50,7 +50,7 @@ public class MessageProducer {
 
             System.out.println(value);
 
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }
 
         producer.close();

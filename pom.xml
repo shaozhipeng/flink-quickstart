@@ -150,6 +150,12 @@ under the License.
 			<version>5.1.45</version>
 		</dependency>
 
+		<dependency>
+			<groupId>ojdbc</groupId>
+			<artifactId>ojdbc</artifactId>
+			<version>14</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
