@@ -5,40 +5,45 @@ $ tree
 .
 ├── README.md
 ├── pom.xml
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── me
-    │   │       └── icocoro
-    │   │           └── quickstart
-    │   │               ├── WordCountData.java
-    │   │               ├── batch
-    │   │               │   └── jdbc
-    │   │               └── streaming
-    │   │                   ├── KafkaToHBaseJob.java
-    │   │                   ├── POJO.java
-    │   │                   ├── StreamKafkaProducer.java
-    │   │                   ├── TradePayInfo.java
-    │   │                   ├── rocketmq
-    │   │                   └── sql
-    │   │                       ├── KafkaStreamSqlGroupByEventTime.java
-    │   │                       ├── KafkaStreamSqlGroupByProcessingTime.java
-    │   │                       ├── KafkaStreamToJDBCTable.java
-    │   │                       ├── MessageProducer.java
-    │   │                       ├── POJOSchema.java
-    │   │                       └── README.md
-    │   └── resources
-    │       └── log4j.properties
-    └── test
-        └── java
-            └── me
-                └── icocoro
-                    ├── hbase
-                    │   └── HBaseClientTest.java
-                    ├── kafka
-                    │   ├── KafkaConsumerTest.java
-                    │   └── KafkaProducerTest.java
-                    └── rocketmq
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── me
+│   │   │       └── icocoro
+│   │   │           └── quickstart
+│   │   │               ├── WordCountData.java
+│   │   │               ├── batch
+│   │   │               │   └── jdbc
+│   │   │               └── streaming
+│   │   │                   ├── KafkaToHBaseJob.java
+│   │   │                   ├── ObjectSchema.java
+│   │   │                   ├── POJO.java
+│   │   │                   ├── StreamKafkaProducer.java
+│   │   │                   ├── TradePayInfo.java
+│   │   │                   ├── rocketmq
+│   │   │                   │   └── README.md
+│   │   │                   └── sql
+│   │   │                       ├── KafkaStreamSqlGroupByEventTime.java
+│   │   │                       ├── KafkaStreamSqlGroupByProcessingTime.java
+│   │   │                       ├── KafkaStreamToJDBCTable.java
+│   │   │                       ├── MessageProducer.java
+│   │   │                       ├── POJOSchema.java
+│   │   │                       ├── README.md
+│   │   │                       ├── SQLTester.java
+│   │   │                       └── t_pojo.sql
+│   │   └── resources
+│   │       └── log4j.properties
+│   └── test
+│       └── java
+│           └── me
+│               └── icocoro
+│                   ├── hbase
+│                   │   └── HBaseClientTest.java
+│                   ├── kafka
+│                   │   ├── KafkaConsumerTest.java
+│                   │   └── KafkaProducerTest.java
+│                   └── rocketmq
+
 
 ```
 
