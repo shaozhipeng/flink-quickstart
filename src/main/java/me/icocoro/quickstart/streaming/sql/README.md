@@ -189,7 +189,28 @@ CREATE TABLE `t_pojo` (
 
 ![image](http://images.icocoro.me/images/new/20190411.png)
 
-### Flink消费kafka不及时，出错重试导致重复计算和结果入库重复，切换别的输出Sink后数据丢失
+### Flink消费kafka不及时，出错重试导致重复计算和结果入库重复，切换别的输出Sink后数据丢失，总之不可能保证绝对的百分之百正确...
 
-使用earliest，比如发送40条数据，窗口消费33条，另外7条，需要继续发送新的数据，才会被消费掉，即便重启程序-也要发送新的数据，才会消费上次"未及时"消费的数据。  
+比如发送40条数据，窗口消费33条，另外7条，需要继续发送新的数据，才会被消费掉，即便重启程序-也要发送新的数据，才会消费上次"未及时"消费的数据。  
 除非修改新的group_id后，会从头消费全部数据。
+
+![image](http://images.icocoro.me/images/new/20190421000.png)
+
+### SQLTester
+
+从Socket服务器接收数据，消费是即时的，数据可以消费完。
+
+### rowtime和proctime时间晚8小时的问题
+
+http://mail-archives.apache.org/mod_mbox/flink-user/201711.mbox/%3C351FD9AB-7A28-4CE0-BD9C-C2A15E5372D6@163.com%3E
+
+https://github.com/apache/calcite  
+org.apache.calcite.runtime.SqlFunctions
+
+```java
+/** Converts the internal representation of a SQL TIMESTAMP (long) to the Java
+   * type used for UDF parameters ({@link java.sql.Timestamp}). */
+  public static java.sql.Timestamp internalToTimestamp(long v) {
+    return new java.sql.Timestamp(v - LOCAL_TZ.getOffset(v));
+  }
+```
