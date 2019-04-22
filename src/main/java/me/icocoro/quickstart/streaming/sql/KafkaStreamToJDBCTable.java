@@ -7,6 +7,7 @@ import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.io.jdbc.JDBCAppendTableSink;
 import org.apache.flink.api.java.io.jdbc.JDBCOutputFormat;
+import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -27,17 +28,36 @@ import java.util.Properties;
  */
 public class KafkaStreamToJDBCTable {
     private static final String LOCAL_KAFKA_BROKER = "localhost:9092";
-    private static final String GROUP_ID = KafkaStreamToJDBCTable.class.getSimpleName();
+    private static final String GROUP_ID = KafkaStreamToJDBCTable.class.getSimpleName() + "000";
     private static final String topic = "testPOJO";
+    private static final long TIME_OFFSET = 28800000;
 
     private final static AscendingTimestampExtractor extractor = new AscendingTimestampExtractor<POJO>() {
         private static final long serialVersionUID = -904965568992964982L;
 
         @Override
         public long extractAscendingTimestamp(POJO element) {
-            return element.getLogTime() + 8 * 60 * 60 * 1000;
+            return element.getLogTime() + TIME_OFFSET;
         }
     };
+
+    // use System.currentTimeMillis() as timestamp of Watermark
+    // 使用System.currentTimeMillis() 窗口聚合的时候可以及时的消费消息
+    private static class CustomWatermarkExtractor2 implements AssignerWithPeriodicWatermarks<POJO> {
+
+        private static final long serialVersionUID = -742759155861320823L;
+
+        @Override
+        public long extractTimestamp(POJO element, long previousElementTimestamp) {
+            return element.getLogTime() + TIME_OFFSET;
+        }
+
+        @Nullable
+        @Override
+        public Watermark getCurrentWatermark() {
+            return new Watermark(System.currentTimeMillis() + TIME_OFFSET);
+        }
+    }
 
     private static class CustomWatermarkExtractor implements AssignerWithPeriodicWatermarks<POJO> {
 
@@ -61,8 +81,10 @@ public class KafkaStreamToJDBCTable {
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(2);
-        // 要设置Checkpoint才能将数据保存到外部系统？
+        // 1. 要设置Checkpoint才能将数据保存到外部系统！
         env.enableCheckpointing(5000);
+        // 2. 要把恰好一次的设置CheckpointingMode.EXACTLY_ONCE去掉，才能在更新GROUP_ID之后从最初的消息开始消费，否则为latest的消息
+//        env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
         env.getConfig().disableSysoutLogging();
         env.getConfig().setRestartStrategy(RestartStrategies.fixedDelayRestart(4, 10000));
 
@@ -81,14 +103,12 @@ public class KafkaStreamToJDBCTable {
                 .addSource(consumer)
                 // public SingleOutputStreamOperator<T> assignTimestampsAndWatermarks(AssignerWithPeriodicWatermarks<T> timestampAndWatermarkAssigner)
                 // 要把SingleOutputStreamOperator返回给pojoDataStream
-                .assignTimestampsAndWatermarks(new CustomWatermarkExtractor());
-
-//        pojoDataStream.print();
+                .assignTimestampsAndWatermarks(new CustomWatermarkExtractor2());
 
         tableEnv.registerDataStream("t_pojo", pojoDataStream, "aid, astyle, energy, age, rowtime.rowtime");
 
         String query =
-//                "SELECT astyle, HOP_START(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_start, HOP_END(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_end, SUM(energy) AS sum_energy, CAST(COUNT(aid) AS INT) AS cnt, CAST(AVG(age) AS INT) AS avg_age FROM t_pojo GROUP BY HOP(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND), astyle";
+//                "SELECT astyle, HOP_START(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_start, HOP_END(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_end, SUM(energy) AS sum_energy, CAST(COUNT(aid) AS INT) AS cnt, CAST(AVG(age) AS INT) AS avg_age FROM t_pojo GROUP BY HOP(HOP_END(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND), INTERVAL '10' SECOND, INTERVAL '10' SECOND), astyle";
                 "SELECT astyle, TUMBLE_START(rowtime, INTERVAL '10' SECOND) time_start, TUMBLE_END(rowtime, INTERVAL '10' SECOND) time_end, SUM(energy) AS sum_energy, CAST(COUNT(aid) AS INT) AS cnt, CAST(AVG(age) AS INT) AS avg_age FROM t_pojo GROUP BY TUMBLE(rowtime, INTERVAL '10' SECOND), astyle";
 
         Table table = tableEnv.sqlQuery(query);
@@ -107,7 +127,7 @@ public class KafkaStreamToJDBCTable {
                 .setDBUrl("jdbc:mysql://127.0.0.1:3306/flink_demo?characterEncoding=utf8&useSSL=false")
                 .setUsername("root")
                 .setPassword("123456")
-                .setQuery("INSERT INTO t_pojo (astyle,time_start,time_end,sum_energy,cnt,avg_age,day_date,topic,group_id) VALUES (?,?,?,?,?,?,CURRENT_DATE(),'" + topic + "','" + GROUP_ID + "')")
+                .setQuery("INSERT INTO t_pojo (astyle,time_start,time_end,sum_energy,cnt,avg_age,topic,group_id) VALUES (?,?,?,?,?,?,'" + topic + "','" + GROUP_ID + "')")
                 .setParameterTypes(FIELD_TYPES)
                 .build();
 
@@ -121,13 +141,13 @@ public class KafkaStreamToJDBCTable {
         // 并不会写到数据库表中
 //        dataStream.writeUsingOutputFormat(jdbcOutputFormat);
 
-        // Oracle需要注意字段名称加上双引号
+        // Oracle需要注意字段名称加上双引号 - 如果建表时字段有双引号，insert的时候加上[双引号是字段的一部分了]，建表时没有双引号，insert时也不需要
 //        JDBCAppendTableSink sink2 = JDBCAppendTableSink.builder()
 //                .setDrivername("oracle.jdbc.driver.OracleDriver")
 //                .setDBUrl("jdbc:oracle:thin:@127.0.0.1:1521:schemaname")
 //                .setUsername("username")
 //                .setPassword("password")
-//                .setQuery("INSERT INTO t_pojo (\"astyle\",\"time_start\",\"time_end\",\"sum_energy\",\"cnt\",\"avg_age\",\"day_date\",\"topic\",\"group_id\") VALUES (?,?,?,?,?,?,CURRENT_DATE(),'" + topic + "','" + GROUP_ID + "')")
+//                .setQuery("INSERT INTO t_pojo (\"astyle\",\"time_start\",\"time_end\",\"sum_energy\",\"cnt\",\"avg_age\",\"day_date\",\"topic\",\"group_id\") VALUES (?,?,?,?,?,?,'" + topic + "','" + GROUP_ID + "')")
 //                .setParameterTypes(FIELD_TYPES)
 //                .build();
 
@@ -141,7 +161,7 @@ public class KafkaStreamToJDBCTable {
                 .setDrivername("com.mysql.jdbc.Driver")
                 .setUsername("root")
                 .setPassword("123456")
-                .setQuery(String.format("INSERT INTO t_pojo (astyle,time_start,time_end,sum_energy,cnt,avg_age,day_date,topic,group_id) VALUES (?,?,?,?,?,?,CURRENT_DATE(),'" + topic + "','" + GROUP_ID + "')"))
+                .setQuery(String.format("INSERT INTO t_pojo (astyle,time_start,time_end,sum_energy,cnt,avg_age,day_date,topic,group_id) VALUES (?,?,?,?,?,?,'" + topic + "','" + GROUP_ID + "')"))
                 .setSqlTypes(new int[]{
                         java.sql.Types.VARCHAR,
                         java.sql.Types.TIMESTAMP,

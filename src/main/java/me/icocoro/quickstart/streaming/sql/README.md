@@ -162,10 +162,6 @@ env.execute();
 
 消息数据源
 
-```bash
-
-```
-
 #### DDL
 
 astyle,time_start,time_end,sum_energy,cnt,avg_age,day_date,topic,group_id
@@ -189,13 +185,34 @@ CREATE TABLE `t_pojo` (
 
 ![image](http://images.icocoro.me/images/new/20190411.png)
 
-### 如果只是纯粹输出流数据，是即时的，全部消息都会消费到（打印输出），说明FlinkSQL的window触发和销毁有点问题
-### Flink消费kafka不及时，出错重试导致重复计算和结果入库重复，切换别的输出Sink后数据丢失，总之不可能保证绝对的百分之百正确...
+### 如果只是纯粹输出流数据，是即时的，全部消息都会消费到（打印输出），说明FlinkSQL的window触发和销毁有点问题【需要调整Watermark】
+### Flink消费kafka不及时？
 
 比如发送40条数据，窗口消费33条，另外7条，需要继续发送新的数据，才会被消费掉，即便重启程序-也要发送新的数据，才会消费上次"未及时"消费的数据。  
 除非修改新的group_id后，会从头消费全部数据。
 
 ![image](http://images.icocoro.me/images/new/20190421000.png)
+
+### 将System.currentTimeMillis()作为Watermark的时间戳，时间使用默认的utc0，对外提供数据时注意转换即可；或者+8个小时
+
+```java
+// use System.currentTimeMillis() as timestamp of Watermark
+private static class CustomWatermarkExtractor2 implements AssignerWithPeriodicWatermarks<POJO> {
+
+    private static final long serialVersionUID = -742759155861320823L;
+
+    @Override
+    public long extractTimestamp(POJO element, long previousElementTimestamp) {
+        return element.getLogTime() + TIME_OFFSET;
+    }
+
+    @Nullable
+    @Override
+    public Watermark getCurrentWatermark() {
+        return new Watermark(System.currentTimeMillis() + TIME_OFFSET);
+    }
+}
+```
 
 ### SQLTester
 
