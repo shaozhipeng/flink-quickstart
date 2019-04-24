@@ -5,24 +5,7 @@
 ```bash
 {"aid":"ID000-8","astyle":"STYLE000-8","aname":"NAME-8","logTime":1554861531221,"energy":3.92,"age":72}
 {"aid":"ID000-4","astyle":"STYLE000-4","aname":"NAME-4","logTime":1554861532524,"energy":569.05,"age":36}
-{"aid":"ID000-9","astyle":"STYLE000-9","aname":"NAME-9","logTime":1554861533526,"energy":399.86,"age":81}
-{"aid":"ID000-9","astyle":"STYLE000-9","aname":"NAME-9","logTime":1554861534528,"energy":460.99,"age":81}
-{"aid":"ID000-8","astyle":"STYLE000-8","aname":"NAME-8","logTime":1554861535532,"energy":228.98,"age":72}
-{"aid":"ID000-6","astyle":"STYLE000-6","aname":"NAME-6","logTime":1554861536535,"energy":513.46,"age":54}
-{"aid":"ID000-8","astyle":"STYLE000-8","aname":"NAME-8","logTime":1554861537539,"energy":59.66,"age":72}
-{"aid":"ID000-6","astyle":"STYLE000-6","aname":"NAME-6","logTime":1554861538544,"energy":456.47,"age":54}
-{"aid":"ID000-9","astyle":"STYLE000-9","aname":"NAME-9","logTime":1554861539549,"energy":232.41,"age":81}
-{"aid":"ID000-2","astyle":"STYLE000-2","aname":"NAME-2","logTime":1554861540555,"energy":945.19,"age":18}
-{"aid":"ID000-1","astyle":"STYLE000-1","aname":"NAME-1","logTime":1554861541559,"energy":283.97,"age":9}
-{"aid":"ID000-5","astyle":"STYLE000-5","aname":"NAME-5","logTime":1554861542561,"energy":757.12,"age":45}
-{"aid":"ID000-3","astyle":"STYLE000-3","aname":"NAME-3","logTime":1554861543566,"energy":64.07,"age":27}
-{"aid":"ID000-1","astyle":"STYLE000-1","aname":"NAME-1","logTime":1554861544570,"energy":203.27,"age":9}
-{"aid":"ID000-2","astyle":"STYLE000-2","aname":"NAME-2","logTime":1554861545573,"energy":288.31,"age":18}
-{"aid":"ID000-6","astyle":"STYLE000-6","aname":"NAME-6","logTime":1554861546575,"energy":792.53,"age":54}
-{"aid":"ID000-9","astyle":"STYLE000-9","aname":"NAME-9","logTime":1554861547581,"energy":963.12,"age":81}
-{"aid":"ID000-3","astyle":"STYLE000-3","aname":"NAME-3","logTime":1554861548583,"energy":708.63,"age":27}
-{"aid":"ID000-8","astyle":"STYLE000-8","aname":"NAME-8","logTime":1554861549589,"energy":717.39,"age":72}
-{"aid":"ID000-2","astyle":"STYLE000-2","aname":"NAME-2","logTime":1554861550594,"energy":585.91,"age":18}
+......
 ```
 
 #### KafkaStreamSqlGroupByProcessingTime#main
@@ -30,40 +13,10 @@
 ```bash
 3> POJO{aid='ID000-8', astyle='STYLE000-8', aname='NAME-8', logTime=1554861531221, energy=3.92, age=72}
 3> POJO{aid='ID000-4', astyle='STYLE000-4', aname='NAME-4', logTime=1554861532524, energy=569.05, age=36}
-3> POJO{aid='ID000-9', astyle='STYLE000-9', aname='NAME-9', logTime=1554861533526, energy=399.86, age=81}
-3> POJO{aid='ID000-9', astyle='STYLE000-9', aname='NAME-9', logTime=1554861534528, energy=460.99, age=81}
-3> POJO{aid='ID000-8', astyle='STYLE000-8', aname='NAME-8', logTime=1554861535532, energy=228.98, age=72}
-3> POJO{aid='ID000-6', astyle='STYLE000-6', aname='NAME-6', logTime=1554861536535, energy=513.46, age=54}
-3> POJO{aid='ID000-8', astyle='STYLE000-8', aname='NAME-8', logTime=1554861537539, energy=59.66, age=72}
-3> POJO{aid='ID000-6', astyle='STYLE000-6', aname='NAME-6', logTime=1554861538544, energy=456.47, age=54}
-3> POJO{aid='ID000-9', astyle='STYLE000-9', aname='NAME-9', logTime=1554861539549, energy=232.41, age=81}
-3> POJO{aid='ID000-2', astyle='STYLE000-2', aname='NAME-2', logTime=1554861540555, energy=945.19, age=18}
-3> POJO{aid='ID000-1', astyle='STYLE000-1', aname='NAME-1', logTime=1554861541559, energy=283.97, age=9}
-3> POJO{aid='ID000-5', astyle='STYLE000-5', aname='NAME-5', logTime=1554861542561, energy=757.12, age=45}
-3> POJO{aid='ID000-3', astyle='STYLE000-3', aname='NAME-3', logTime=1554861543566, energy=64.07, age=27}
-3> POJO{aid='ID000-1', astyle='STYLE000-1', aname='NAME-1', logTime=1554861544570, energy=203.27, age=9}
-3> POJO{aid='ID000-2', astyle='STYLE000-2', aname='NAME-2', logTime=1554861545573, energy=288.31, age=18}
-3> POJO{aid='ID000-6', astyle='STYLE000-6', aname='NAME-6', logTime=1554861546575, energy=792.53, age=54}
-3> POJO{aid='ID000-9', astyle='STYLE000-9', aname='NAME-9', logTime=1554861547581, energy=963.12, age=81}
-3> POJO{aid='ID000-3', astyle='STYLE000-3', aname='NAME-3', logTime=1554861548583, energy=708.63, age=27}
-3> POJO{aid='ID000-8', astyle='STYLE000-8', aname='NAME-8', logTime=1554861549589, energy=717.39, age=72}
-3> POJO{aid='ID000-2', astyle='STYLE000-2', aname='NAME-2', logTime=1554861550594, energy=585.91, age=18}
+......
 3> (true,2019-04-10 02:01:00.0,2019-04-10 02:02:00.0,STYLE000-9,2056.38,4)
 2> (true,2019-04-10 02:01:00.0,2019-04-10 02:02:00.0,STYLE000-8,1009.95,4)
-1> (true,2019-04-10 02:01:00.0,2019-04-10 02:02:00.0,STYLE000-1,487.24,2)
-3> (true,2019-04-10 02:01:00.0,2019-04-10 02:02:00.0,STYLE000-6,1762.46,3)
-2> (true,2019-04-10 02:01:00.0,2019-04-10 02:02:00.0,STYLE000-4,569.05,1)
-1> (true,2019-04-10 02:01:00.0,2019-04-10 02:02:00.0,STYLE000-3,772.70,2)
-3> (true,2019-04-10 02:01:00.0,2019-04-10 02:02:00.0,STYLE000-5,757.12,1)
-2> (true,2019-04-10 02:01:00.0,2019-04-10 02:02:00.0,STYLE000-2,1819.41,3)
-2> (true,2019-04-10 02:01:30.0,2019-04-10 02:02:30.0,STYLE000-8,1009.95,4)
-3> (true,2019-04-10 02:01:30.0,2019-04-10 02:02:30.0,STYLE000-9,2056.38,4)
-2> (true,2019-04-10 02:01:30.0,2019-04-10 02:02:30.0,STYLE000-2,1819.41,3)
-1> (true,2019-04-10 02:01:30.0,2019-04-10 02:02:30.0,STYLE000-3,772.70,2)
-3> (true,2019-04-10 02:01:30.0,2019-04-10 02:02:30.0,STYLE000-5,757.12,1)
-2> (true,2019-04-10 02:01:30.0,2019-04-10 02:02:30.0,STYLE000-4,569.05,1)
-1> (true,2019-04-10 02:01:30.0,2019-04-10 02:02:30.0,STYLE000-1,487.24,2)
-3> (true,2019-04-10 02:01:30.0,2019-04-10 02:02:30.0,STYLE000-6,1762.46,3)
+......
 ```
 
 #### KafkaStreamSqlGroupByEventTime#main
@@ -185,7 +138,7 @@ CREATE TABLE `t_pojo` (
 
 ![image](http://images.icocoro.me/images/new/20190411.png)
 
-### 如果只是纯粹输出流数据，是即时的，全部消息都会消费到（打印输出），说明FlinkSQL的window触发和销毁有点问题【需要调整Watermark】
+### 如果只是纯粹输出流数据，是即时的，全部消息都会消费到（打印输出），说明FlinkSQL的window触发和销毁有点问题【需要调整Watermark？】
 ### Flink消费kafka不及时？
 
 比如发送40条数据，窗口消费33条，另外7条，需要继续发送新的数据，才会被消费掉，即便重启程序-也要发送新的数据，才会消费上次"未及时"消费的数据。  
@@ -193,7 +146,49 @@ CREATE TABLE `t_pojo` (
 
 ![image](http://images.icocoro.me/images/new/20190421000.png)
 
-### 将System.currentTimeMillis()作为Watermark的时间戳，时间使用默认的utc0，对外提供数据时注意转换即可；或者+8个小时
+#### 不用显示创建Watermark 即默认-9223372036854775808 Long.MIN_VALUE
+
+```java
+new AscendingTimestampExtractor<POJO>() {
+    @Override
+    public long extractAscendingTimestamp(POJO> element) {
+        return element.getLogTime() + CommConstant.TIME_OFFSET;
+    }
+}
+```
+##### 使用新的消费者组group.id在Flink程序启动时，可以从头消费数据，但会有预留数据消费不到；当有新的数据发送到Kafka时，上次预留的数据会被消费掉，而新的数据又会有预留
+##### 消息流中新的数据，事件时间不是单调递增，这些比之前事件时间小的事件是不会被消费的 会提示：Timestamp monotony violated:
+##### Flink程序重启后，仍需向Kafka发送新的数据，才会消费之前预留的数据，且会消费所有原来未消费的数据，包括上面（Timestamp monotony violated:）的数据
+
+#### 使用currentMaxTimestamp - maxOutOfOrderness作为Watermark的时间戳
+
+```java
+// use currentMaxTimestamp - maxOutOfOrderness as timestamp of Watermark
+private static class CustomWatermarkExtractor implements AssignerWithPeriodicWatermarks<POJO> {
+    Long currentMaxTimestamp = 0L;
+    final Long maxOutOfOrderness = 3500L;
+
+    @Override
+    public long extractTimestamp(POJO element, long l) {
+        long timestamp = element.getLogTime() + CommConstant.TIME_OFFSET;
+        currentMaxTimestamp = Math.max(timestamp, currentMaxTimestamp);
+        return timestamp;
+    }
+
+    @Nullable
+    @Override
+    public Watermark getCurrentWatermark() {
+        return new Watermark(currentMaxTimestamp - maxOutOfOrderness);
+    }
+}
+```
+
+##### 使用新的消费者组group.id在Flink程序启动时，可以从头消费数据，但会有预留数据消费不到；当有新的数据发送到Kafka时，上次预留的数据会被消费掉，而新的数据又会有预留
+##### 消息流中新的数据，事件时间不是单调递增，这些比之前事件时间小的事件是不会被消费的
+##### Flink程序重启后，有时仍需向Kafka发送新的数据，才会消费之前预留的数据，有时要发两批，且有数据丢失未被消费到
+##### 总之是不确定的，不准确的；准确性失效！
+
+#### 使用System.currentTimeMillis()作为Watermark的时间戳，时间使用默认的utc0，对外提供数据时注意转换即可；或者+8个小时
 
 ```java
 // use System.currentTimeMillis() as timestamp of Watermark
@@ -214,9 +209,31 @@ private static class CustomWatermarkExtractor2 implements AssignerWithPeriodicWa
 }
 ```
 
+##### 使用新的消费者组group.id在Flink程序启动时，不会消费Kafka任何已经存在的消息
+##### 消息流中新的数据，事件时间不是单调递增，这些比之前事件时间小的事件是不会被消费的
+##### 当有新的数据发送到Kafka时，之前从未被消费过的消息仍然不会被消费，而只是消费最新发送或最新接收到的消息【相当于only latest】
+##### Flink程序重启后，同上不会消费任何未启动期间Kafka接收的新消息，而只会处理Flink程序启动后Kafka接收到的消息
+##### 当然消息不会有预留，因为要么全部消费，要么直接消费不到了；容错失效！
+
+[Stackoverflow](https://stackoverflow.com/questions/55499764/how-to-let-flink-flush-last-line-to-sink-when-producerkafka-does-not-produce-n/55525476#55525476)
+
 ### SQLTester
 
 从Socket服务器接收数据，消费是即时的，数据可以消费完。
+
+```java
+private final static AscendingTimestampExtractor extractor = new AscendingTimestampExtractor<Tuple3<String, Double, Time>>() {
+    private static final long serialVersionUID = -6815003214365056610L;
+
+    @Override
+    public long extractAscendingTimestamp(Tuple3<String, Double, Time> element) {
+        // 当前时间+28800000L
+        return element.f2.getTime() + 28800000L;
+    }
+}
+```
+
+#### 说明Kafka那里消费的问题并不是assignTimestampsAndWatermarks...
 
 ### rowtime和proctime时间晚8小时的问题
 
