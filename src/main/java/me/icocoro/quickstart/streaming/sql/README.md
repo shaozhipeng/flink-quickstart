@@ -146,7 +146,7 @@ CREATE TABLE `t_pojo` (
 
 ![image](http://images.icocoro.me/images/new/20190421000.png)
 
-#### 不用显示创建Watermark 即默认-9223372036854775808 Long.MIN_VALUE
+#### 1. 不用显示创建Watermark 即默认-9223372036854775808 Long.MIN_VALUE
 
 ```java
 new AscendingTimestampExtractor<POJO>() {
@@ -160,7 +160,7 @@ new AscendingTimestampExtractor<POJO>() {
 ##### 消息流中新的数据，事件时间不是单调递增，这些比之前事件时间小的事件是不会被消费的 会提示：Timestamp monotony violated:
 ##### Flink程序重启后，仍需向Kafka发送新的数据，才会消费之前预留的数据，且会消费所有原来未消费的数据，包括上面（Timestamp monotony violated:）的数据
 
-#### 使用currentMaxTimestamp - maxOutOfOrderness作为Watermark的时间戳
+#### 2. 使用currentMaxTimestamp - maxOutOfOrderness作为Watermark的时间戳
 
 ```java
 // use currentMaxTimestamp - maxOutOfOrderness as timestamp of Watermark
@@ -188,7 +188,7 @@ private static class CustomWatermarkExtractor implements AssignerWithPeriodicWat
 ##### Flink程序重启后，有时仍需向Kafka发送新的数据，才会消费之前预留的数据，有时要发两批，且有数据丢失未被消费到
 ##### 总之是不确定的，不准确的；准确性失效！
 
-#### 使用System.currentTimeMillis()作为Watermark的时间戳，时间使用默认的utc0，对外提供数据时注意转换即可；或者+8个小时
+#### 3. 使用System.currentTimeMillis()作为Watermark的时间戳，时间使用默认的utc0，对外提供数据时注意转换即可；或者+8个小时
 
 ```java
 // use System.currentTimeMillis() as timestamp of Watermark
@@ -217,6 +217,10 @@ private static class CustomWatermarkExtractor2 implements AssignerWithPeriodicWa
 
 [Stackoverflow](https://stackoverflow.com/questions/55499764/how-to-let-flink-flush-last-line-to-sink-when-producerkafka-does-not-produce-n/55525476#55525476)
 
+#### 4. 不使用rowtime(eventtime)，使用proctime
+
+不需要Watermark，一切正常
+
 ### SQLTester
 
 从Socket服务器接收数据，消费是即时的，数据可以消费完。
@@ -233,7 +237,7 @@ private final static AscendingTimestampExtractor extractor = new AscendingTimest
 }
 ```
 
-#### 说明Kafka那里消费的问题并不是assignTimestampsAndWatermarks...
+#### 说明Kafka那里消费的问题并不是assignTimestampsAndWatermarks？？
 
 ### rowtime和proctime时间晚8小时的问题
 

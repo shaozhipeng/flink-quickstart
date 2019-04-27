@@ -49,7 +49,11 @@ $ tree
 
 ### streaming
 
+#### stream sql
 
+[遇到的问题和说明](https://github.com/shaozhipeng/flink-quickstart/tree/master/src/main/java/me/icocoro/quickstart/streaming/sql)
+
+当kafka有大量消息延迟得不到快速消费时，Flink的滚动窗口会丢失数据，聚合不到。
 
 #### main
 
