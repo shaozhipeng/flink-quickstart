@@ -256,5 +256,5 @@ org.apache.calcite.runtime.SqlFunctions
 
 ### EventTimeTrigger源码
 
-从EventTimeTrigger看事件时间与自然时间之间的矛盾（中断时的窗口 和 无穷尽头的那个最后时间的窗口结果一定不是”实时的“）：
+从EventTimeTrigger看事件时间与自然时间之间的矛盾（中断时的窗口 和 无穷尽头的那个最后时间的窗口结果一定不是”实时的“）：  
 默认的EventTimeTrigger源码，发现只有onElement（会判断水位线）和onEventTime时才有机会TriggerResult.FIRE;因此，默认的EventTimeTrigger是假设且必须做到“永不停息！的数据流”才会有“正确的实时结果”，所以只要两个eventtime中间间隔过大，大于时间窗口间隔，或者说窗口的end时间还没到就没有新的数据了（流中断，既没有element也没有eventtime），那么最近一次的窗口输出结果一定是不及时-非实时的（如果用eventtime去做流的有界窗口聚合，必需有就近的未来数据支撑，一旦中断就不实时了），而且必需等到新的数据流接上，才会输出新的数据流之前没有及时输出的窗口结果。（设置了EventTime后onProcessingTime永远不会被调用，所以修改onProcessingTime没有作用，Called when a processing-time timer that was set using the trigger context fires.）。那么，要想“真实时TriggerResult“只能要么使用processing-time、要么”保证“流数据事件时间间隔小且最好连续顺序且永不中断（如果这个能保证，直接使用processing-time就好了，生产环境中使用EventTime和Watermark的意义有多少以及用啥方法来测试数据结果的实时性和准确性？）、最后就是assignWindows时确定的窗口end时间只要到了自然时间点就触发TriggerResult就可以”保证“实时结果了。。。
