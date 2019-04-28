@@ -253,3 +253,8 @@ org.apache.calcite.runtime.SqlFunctions
     return new java.sql.Timestamp(v - LOCAL_TZ.getOffset(v));
   }
 ```
+
+### EventTimeTrigger源码
+
+EventTimeTrigger源码，发现只有onElement（判断水位线）和onEventTime时才有机会TriggerResult.FIRE;  
+因此，默认的EventTimeTrigger是假设且必须做到“永不停息！的数据流”才会有“正确的实时结果”，所以只要两个eventtime中间间隔过大，大于时间窗口间隔，或者说窗口的end时间还没到就没有新的数据了（既没有element也没有eventtime），那么最近一次的窗口输出结果一定是不及时-非实时的，而且必须等到新的数据流接上，才会输出新的数据流之前没有及时输出的窗口结果。是否可以理解只要修改onProcessingTime，改成和onEventTime一样，当窗口的end时间到了，即使没有event，也Fire窗口结果。
