@@ -1,6 +1,6 @@
 #### 交流学习
 
-![image](http://images.icocoro.me/images/new/qrcode_for_gh_15fee3a03797_1280.jpg)
+![image](http://images.icocoro.me/images/new/qrcode_for_gh_15fee3a03797_258.jpg)
 
 #### 启动本地Zookeeper和Kafka
 
