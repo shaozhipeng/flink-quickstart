@@ -55,6 +55,8 @@ $ tree
 
 当kafka有大量消息延迟得不到快速消费时，Flink的滚动窗口会丢失数据，聚合不到。
 
+#### FlinkCEP
+
 #### main
 
 ##### Transfer Data From Kafka to HBase
@@ -245,3 +247,8 @@ git add README.md
 git commit -m 'flink-quickstart first commit'  
 git remote add origin https://github.com/shaozhipeng/flink-quickstart.git  
 git push -u origin master 
+
+
+#### 交流学习  
+
+![image](http://images.icocoro.me/images/new/qrcode_for_gh_15fee3a03797_1280.jpg)
