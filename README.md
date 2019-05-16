@@ -76,15 +76,15 @@ webtable
 Took 0.4359 seconds                                                                                                                                                       
 => ["trade_pay_info", "webtable"]
 hbase(main):003:0> scan 'trade_pay_info' 
-dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:timestamp, timestamp=1554371824958, value=1554371821731                                                       
+dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:tt, tt=1554371824958, value=1554371821731                                                       
  07132                                                                                                                                                                    
- dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:total_amount, timestamp=1554371824881, value=80.18125799960907                                                
+ dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:total_amount, tt=1554371824881, value=80.18125799960907                                                
  07132                                                                                                                                                                    
- dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:trade_no, timestamp=1554371824710, value=t9                                                                   
+ dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:trade_no, tt=1554371824710, value=t9                                                                   
  07132                                                                                                                                                                    
- dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:trade_pay_id, timestamp=1554371824666, value=9e4856599-4cf7-477d-a69f-255a4f107132                            
+ dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:trade_pay_id, tt=1554371824666, value=9e4856599-4cf7-477d-a69f-255a4f107132                            
  07132                                                                                                                                                                    
- dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:trade_type, timestamp=1554371824794, value=T9                                                                 
+ dateformat9e4856599-4cf7-477d-a69f-255a4f1 column=baseinfo:trade_type, tt=1554371824794, value=T9                                                                 
  07132                                                                                                                                                                    
 200 row(s)
 Took 1.1644 seconds  
@@ -138,7 +138,7 @@ cell: https://icocoro.me/contents:html/1554359440303/Put/vlen=71/seqid=0
 family: contents
 qualifier: html
 value: webtable-https://icocoro.me-contents:html=<html><head></head>...</html>
-timestamp: 1554359440303
+tt: 1554359440303
 ---------------------------------------------
 ```
 
