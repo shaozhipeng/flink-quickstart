@@ -27,12 +27,12 @@ public class KafkaStreamSqlGroupByProcessingTime {
         kafkaProps.setProperty("auto.offset.reset", "earliest");
 
         FlinkKafkaConsumer011<POJO> consumer = new FlinkKafkaConsumer011<>("testPOJO", new POJOSchema(), kafkaProps);
-        DataStream<POJO> tradeOrderStream = env.addSource(consumer);
+        DataStream<POJO> pojoDataStream = env.addSource(consumer);
 
-        tradeOrderStream.print();
+        pojoDataStream.print();
 
         final StreamTableEnvironment tEnv = TableEnvironment.getTableEnvironment(env);
-        tEnv.registerDataStream("t_pojo", tradeOrderStream, "aid, astyle, energy, age, proctime.proctime");
+        tEnv.registerDataStream("t_pojo", pojoDataStream, "aid, astyle, energy, age, proctime.proctime");
 
         Table results =
 //                tEnv.sqlQuery("SELECT * FROM t_pojo");

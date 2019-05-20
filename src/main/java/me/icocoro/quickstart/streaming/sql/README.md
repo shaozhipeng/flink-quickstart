@@ -127,8 +127,8 @@ astyle,time_start,time_end,sum_energy,cnt,avg_age,day_date,topic,group_id
 CREATE TABLE `t_pojo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `astyle` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `time_start` timestamp NULL DEFAULT NULL,
-  `time_end` timestamp NULL DEFAULT NULL,
+  `time_start` tt NULL DEFAULT NULL,
+  `time_end` tt NULL DEFAULT NULL,
   `sum_energy` decimal(15,2) DEFAULT NULL,
   `cnt` int(16) DEFAULT NULL,
   `avg_age` int(16) DEFAULT NULL,
@@ -167,16 +167,16 @@ new AscendingTimestampExtractor<POJO>() {
 #### 2. 使用currentMaxTimestamp - maxOutOfOrderness作为Watermark的时间戳
 
 ```java
-// use currentMaxTimestamp - maxOutOfOrderness as timestamp of Watermark
+// use currentMaxTimestamp - maxOutOfOrderness as tt of Watermark
 private static class CustomWatermarkExtractor implements AssignerWithPeriodicWatermarks<POJO> {
     Long currentMaxTimestamp = 0L;
     final Long maxOutOfOrderness = 3500L;
 
     @Override
     public long extractTimestamp(POJO element, long l) {
-        long timestamp = element.getLogTime() + CommConstant.TIME_OFFSET;
-        currentMaxTimestamp = Math.max(timestamp, currentMaxTimestamp);
-        return timestamp;
+        long tt = element.getLogTime() + CommConstant.TIME_OFFSET;
+        currentMaxTimestamp = Math.max(tt, currentMaxTimestamp);
+        return tt;
     }
 
     @Nullable
@@ -195,7 +195,7 @@ private static class CustomWatermarkExtractor implements AssignerWithPeriodicWat
 #### 3. 使用System.currentTimeMillis()作为Watermark的时间戳，时间使用默认的utc0，对外提供数据时注意转换即可；或者+8个小时
 
 ```java
-// use System.currentTimeMillis() as timestamp of Watermark
+// use System.currentTimeMillis() as tt of Watermark
 private static class CustomWatermarkExtractor2 implements AssignerWithPeriodicWatermarks<POJO> {
 
     private static final long serialVersionUID = -742759155861320823L;
@@ -260,5 +260,14 @@ org.apache.calcite.runtime.SqlFunctions
 
 ### EventTimeTrigger源码
 
-从EventTimeTrigger看事件时间与自然时间之间的矛盾（中断时的窗口 和 无穷尽头的那个最后时间的窗口结果一定不是”实时的“）：  
-默认的EventTimeTrigger源码，发现只有onElement（会判断水位线）和onEventTime时才有机会TriggerResult.FIRE;因此，默认的EventTimeTrigger是假设且必须做到“永不停息！的数据流”才会有“正确的实时结果”，所以只要两个eventtime中间间隔过大，大于时间窗口间隔，或者说窗口的end时间还没到就没有新的数据了（流中断，既没有element也没有eventtime），那么最近一次的窗口输出结果一定是不及时-非实时的（如果用eventtime去做流的有界窗口聚合，必需有就近的未来数据支撑，一旦中断就不实时了），而且必需等到新的数据流接上，才会输出新的数据流之前没有及时输出的窗口结果。（设置了EventTime后onProcessingTime永远不会被调用，所以修改onProcessingTime没有作用，Called when a processing-time timer that was set using the trigger context fires.）。那么，要想“真实时TriggerResult“只能要么使用processing-time、要么”保证“流数据事件时间间隔小且最好连续顺序且永不中断（如果这个能保证，直接使用processing-time就好了，生产环境中使用EventTime和Watermark的意义有多少以及用啥方法来测试数据结果的实时性和准确性？）、最后就是assignWindows时确定的窗口end时间只要到了自然时间点就触发TriggerResult就可以”保证“实时结果了。。。
+从EventTimeTrigger看事件时间与自然时间之间的矛盾（中断时的窗口 和 无穷尽头的那个最后时间的窗口结果一定不是「实时的」）：    
+默认的EventTimeTrigger源码，发现只有onElement（会判断水位线）和onEventTime时才有机会TriggerResult.FIRE;   
+因此，默认的EventTimeTrigger是假设且必须做到「永不停息」的数据流才会有『正确的实时结果』。   
+所以只要两个eventtime中间间隔过大，大于时间窗口间隔，或者说窗口的end时间还没到就没有新的数据了【流中断，既没有element也没有eventtime】，   
+那么最近一次的窗口输出结果一定是不及时-非实时的（如果用eventtime去做流的有界窗口聚合，必需有就近的未来数据支撑，一旦中断就不实时了），    
+而且必需等到新的数据流接上，才会输出新的数据流之前没有及时输出的窗口结果。    
+（设置了EventTime后onProcessingTime永远不会被调用，所以修改onProcessingTime没有作用，   
+Called when a processing-time timer that was set using the trigger context fires.）。    
+那么，要想『真实时TriggerResult』只能要么使用processing-time、要么『保证』流数据事件时间间隔小且最好连续顺序且永不中断   
+（如果这个能保证，直接使用processing-time就好了，生产环境中使用EventTime和Watermark的意义有多少以及用啥方法来测试数据结果的实时性和准确性？）、   
+最后就是assignWindows时确定的窗口end时间只要到了自然时间点就触发TriggerResult就可以『保证』实时结果了。

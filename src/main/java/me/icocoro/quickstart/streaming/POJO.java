@@ -1,10 +1,13 @@
 package me.icocoro.quickstart.streaming;
 
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Date;
 
 /**
  * 业务数据封装的实体类
+ * 和Spark相比，社区版的Flink就是个半成品，修修补补自定义，根本上不了生产
  */
 public class POJO implements Serializable {
     private static final long serialVersionUID = -4281155263332879073L;
@@ -14,6 +17,7 @@ public class POJO implements Serializable {
     private Long logTime;
     private BigDecimal energy;
     private Integer age;
+    private Date tt;
 
     public String getAid() {
         return aid;
@@ -63,6 +67,14 @@ public class POJO implements Serializable {
         this.age = age;
     }
 
+    public Date getTt() {
+        return tt;
+    }
+
+    public void setTt(Date tt) {
+        this.tt = tt;
+    }
+
     @Override
     public String toString() {
         return "POJO{" +
@@ -72,6 +84,7 @@ public class POJO implements Serializable {
                 ", logTime=" + logTime +
                 ", energy=" + energy +
                 ", age=" + age +
+                ", tt=" + tt +
                 '}';
     }
 }

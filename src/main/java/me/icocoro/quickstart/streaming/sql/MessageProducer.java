@@ -8,6 +8,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Properties;
 
 /**
@@ -33,7 +35,7 @@ public class MessageProducer {
         Producer<String, String> producer = new KafkaProducer<>(props);
         Gson gson = new Gson();
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 50; i++) {
             POJO pojo = new POJO();
             int j = (int) (Math.random() * 10);
             pojo.setAid("ID000-" + j);
@@ -42,6 +44,7 @@ public class MessageProducer {
             pojo.setEnergy(new BigDecimal(1000 * Math.random()).setScale(2, RoundingMode.HALF_UP));
             pojo.setAge(j * 9);
             long time = System.currentTimeMillis();
+            pojo.setTt(new Date(time));
             pojo.setLogTime(time);
 
             String value = gson.toJson(pojo);
@@ -50,7 +53,7 @@ public class MessageProducer {
 
             System.out.println(value);
 
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }
 
         producer.close();

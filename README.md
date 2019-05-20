@@ -1,3 +1,15 @@
+### streaming
+
+#### streaming sql
+
+[FlinkStreamingSQL DEMO](https://github.com/shaozhipeng/flink-quickstart/tree/master/src/main/java/me/icocoro/quickstart/streaming/sql)
+
+当kafka有大量消息延迟得不到快速消费时，Flink时间窗口，会有数据丢弃，设置合适的窗口时间和延迟至关重要。
+
+#### FlinkCEP
+
+[FlinkCEP DEMO](https://github.com/shaozhipeng/flink-quickstart/tree/master/src/main/java/me/icocoro/quickstart/streaming/cep)
+
 ### 代码结构
 
 ```bash
@@ -62,16 +74,6 @@ $ tree
 
 
 ```
-
-### streaming
-
-#### stream sql
-
-[遇到的问题和说明](https://github.com/shaozhipeng/flink-quickstart/tree/master/src/main/java/me/icocoro/quickstart/streaming/sql)
-
-当kafka有大量消息延迟得不到快速消费时，Flink的滚动窗口会丢失数据，聚合不到。
-
-#### FlinkCEP
 
 #### main
 

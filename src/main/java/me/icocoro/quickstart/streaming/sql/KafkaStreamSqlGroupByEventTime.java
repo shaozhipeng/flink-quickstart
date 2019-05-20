@@ -50,10 +50,11 @@ public class KafkaStreamSqlGroupByEventTime {
 
 //        pojoDataStream.print();
 
-        tableEnv.registerDataStream("t_pojo", pojoDataStream, "aid, astyle, energy, age, rowtime.rowtime");
+        tableEnv.registerDataStream("t_pojo", pojoDataStream, "aid, astyle, energy, age, tt, rowtime.rowtime");
 
+//        String query = "SELECT CURRENT_DATE, tt, rowtime from t_pojo";
         String query =
-                "SELECT astyle, HOP_START(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_start, HOP_END(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND) time_end, SUM(energy) AS sum_energy, COUNT(aid) AS cnt, AVG(age) AS avg_age FROM t_pojo GROUP BY HOP(rowtime, INTERVAL '10' SECOND, INTERVAL '10' SECOND), astyle";
+                "SELECT astyle, HOP_START(rowtime, INTERVAL '1' MINUTE, INTERVAL '1' DAY) time_start, HOP_END(rowtime, INTERVAL '1' MINUTE, INTERVAL '1' DAY) time_end, SUM(energy) AS sum_energy, COUNT(aid) AS cnt, AVG(age) AS avg_age FROM t_pojo WHERE tt>=CURRENT_DATE GROUP BY HOP(rowtime, INTERVAL '1' MINUTE, INTERVAL '1' DAY), astyle";
 //                "SELECT astyle, TUMBLE_START(rowtime, INTERVAL '10' SECOND) time_start, TUMBLE_END(rowtime, INTERVAL '10' SECOND) time_end, SUM(energy) AS sum_energy, COUNT(aid) AS cnt, AVG(age) AS avg_age FROM t_pojo GROUP BY HOP(rowtime, INTERVAL '10' SECOND), astyle";
 
         Table table = tableEnv.sqlQuery(query);
@@ -61,11 +62,11 @@ public class KafkaStreamSqlGroupByEventTime {
         tableEnv.toAppendStream(table, Row.class).print();
 //        tableEnv.toRetractStream(table, Row.class).print();
 
-        String query2 =
-                "SELECT astyle, TUMBLE_START(rowtime, INTERVAL '10' SECOND), TUMBLE_END(rowtime, INTERVAL '10' SECOND), MAX(energy) AS max_energy, MIN(energy) AS min_energy FROM t_pojo GROUP BY TUMBLE(rowtime, INTERVAL '10' SECOND), astyle";
+//        String query2 =
+//                "SELECT astyle, TUMBLE_START(rowtime, INTERVAL '10' SECOND), TUMBLE_END(rowtime, INTERVAL '10' SECOND), MAX(energy) AS max_energy, MIN(energy) AS min_energy FROM t_pojo GROUP BY TUMBLE(rowtime, INTERVAL '10' SECOND), astyle";
 //
-        Table table2 = tableEnv.sqlQuery(query2);
-        tableEnv.toRetractStream(table2, Row.class).print();
+//        Table table2 = tableEnv.sqlQuery(query2);
+//        tableEnv.toRetractStream(table2, Row.class).print();
 
         env.execute();
     }
