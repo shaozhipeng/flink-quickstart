@@ -69,6 +69,7 @@ public class CEPMonitoring {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         // Input stream of monitoring events
+        // 监控事件的输入流
         DataStream<MonitoringEvent> inputEventStream = env
                 .addSource(new MonitoringEventSource(
                         MAX_RACK_ID,
@@ -93,6 +94,7 @@ public class CEPMonitoring {
                         return value.getTemperature() >= TEMPERATURE_THRESHOLD;
                     }
                 })
+                // 严格临近
                 .next("second")
                 .subtype(TemperatureEvent.class)
                 .where(new IterativeCondition<TemperatureEvent>() {
@@ -106,11 +108,15 @@ public class CEPMonitoring {
                 .within(Time.seconds(10));
 
         // Create a pattern stream from our warning pattern
+        // 温度事件输入流和模式的组合
+        // PatternStream(DataStream<T> inputStream, Pattern<T, ?> pattern, EventComparator<T> comparator){} comparator默认为null
         PatternStream<MonitoringEvent> tempPatternStream = CEP.pattern(
                 inputEventStream.keyBy("rackID"),
                 warningPattern);
 
         // Generate temperature warnings for each matched warning pattern
+        // 检索 选择匹配到的事件生成温度警告 连续两次温度取个平均值
+        // select
         DataStream<TemperatureWarning> warnings = tempPatternStream.select(
                 (Map<String, List<MonitoringEvent>> pattern) -> {
                     TemperatureEvent first = (TemperatureEvent) pattern.get("first").get(0);
@@ -121,17 +127,21 @@ public class CEPMonitoring {
         );
 
         // Alert pattern: Two consecutive temperature warnings appearing within a time interval of 20 seconds
+        // 报警模式：对上面匹配出来的温度警告流事件进行匹配 20秒内连续两次温度警告
         Pattern<TemperatureWarning, ?> alertPattern = Pattern.<TemperatureWarning>begin("first")
                 .next("second")
                 .within(Time.seconds(20));
 
         // Create a pattern stream from our alert pattern
+        // 温度警告流和报警模式的组合
         PatternStream<TemperatureWarning> alertPatternStream = CEP.pattern(
                 warnings.keyBy("rackID"),
                 alertPattern);
 
         // Generate a temperature alert only if the second temperature warning's average temperature is higher than
         // first warning's temperature
+        // 选择匹配到的温度警告，只有第二个温度警告的平均温度高于第一个温度警告的平均温度时，才生成一个温度报警
+        // flatSelect
         DataStream<TemperatureAlert> alerts = alertPatternStream.flatSelect(
                 (Map<String, List<TemperatureWarning>> pattern, Collector<TemperatureAlert> out) -> {
                     TemperatureWarning first = pattern.get("first").get(0);

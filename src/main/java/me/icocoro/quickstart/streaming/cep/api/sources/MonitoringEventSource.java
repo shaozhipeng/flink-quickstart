@@ -84,7 +84,8 @@ public class MonitoringEventSource extends RichParallelSourceFunction<Monitoring
 
             if (shard > 0) {
                 int rackId = random.nextInt(shard) + offset;
-                // 两个子事件
+                // 两个子事件，例如同一个topic的kafka消息，不同的json解析生成子事件
+                // 这里功率和温度数据分开了
                 if (random.nextDouble() >= temperatureRatio) {
                     double power = random.nextGaussian() * powerStd + powerMean;
                     monitoringEvent = new PowerEvent(rackId, power);
