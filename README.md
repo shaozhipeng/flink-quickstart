@@ -10,6 +10,13 @@
 
 [FlinkCEP DEMO](https://github.com/shaozhipeng/flink-quickstart/tree/master/src/main/java/me/icocoro/quickstart/streaming/cep)
 
+### resources、examples and training exercises
+
+[flink-examples](https://github.com/shaozhipeng/flink/tree/master/flink-examples)
+[flink-training-exercises](https://github.com/shaozhipeng/flink-training-exercises)
+[zh-community](https://zh.ververica.com/)
+[flink-training-course](https://github.com/flink-china/flink-training-course)
+
 ### 代码结构
 
 ```bash
@@ -25,18 +32,32 @@ $ tree
 │   │   │           └── quickstart
 │   │   │               ├── WordCountData.java
 │   │   │               ├── batch
-│   │   │               │   └── jdbc
+│   │   │               │   ├── README.md
+│   │   │               │   ├── jdbc
+│   │   │               │   └── table
+│   │   │               ├── issures
+│   │   │               ├── junittest
+│   │   │               ├── metric
+│   │   │               ├── openplatform
+│   │   │               ├── performance
+│   │   │               ├── sourcecode
 │   │   │               └── streaming
+│   │   │                   ├── BusinessEntity.java
 │   │   │                   ├── KafkaToHBaseJob.java
 │   │   │                   ├── ObjectSchema.java
 │   │   │                   ├── POJO.java
 │   │   │                   ├── StreamKafkaProducer.java
-│   │   │                   ├── TradePayInfo.java
+│   │   │                   ├── asyncio
+│   │   │                   │   ├── AsyncCassandraRequest.java
+│   │   │                   │   ├── AsyncHBaseRequest.java
+│   │   │                   │   ├── AsyncIOJob.java
+│   │   │                   │   └── AsyncRedisRequest.java
 │   │   │                   ├── cep
 │   │   │                   │   ├── README.md
 │   │   │                   │   ├── api
 │   │   │                   │   │   ├── CEPMonitoring.java
 │   │   │                   │   │   ├── FlinkCEPTest.java
+│   │   │                   │   │   ├── HopCEPTest.java
 │   │   │                   │   │   ├── README.md
 │   │   │                   │   │   ├── events
 │   │   │                   │   │   │   ├── MonitoringEvent.java
@@ -47,7 +68,15 @@ $ tree
 │   │   │                   │   │   └── sources
 │   │   │                   │   │       └── MonitoringEventSource.java
 │   │   │                   │   └── sql
+│   │   │                   ├── graphs
+│   │   │                   ├── ml
 │   │   │                   ├── rocketmq
+│   │   │                   │   └── README.md
+│   │   │                   ├── sink
+│   │   │                   │   ├── HDFSSinkDemo.java
+│   │   │                   │   ├── KafkaSinkDemo.java
+│   │   │                   │   └── README.md
+│   │   │                   ├── source
 │   │   │                   │   └── README.md
 │   │   │                   └── sql
 │   │   │                       ├── KafkaStreamSqlGroupByEventTime.java
@@ -57,7 +86,8 @@ $ tree
 │   │   │                       ├── POJOSchema.java
 │   │   │                       ├── README.md
 │   │   │                       ├── SQLTester.java
-│   │   │                       ├── StreamJoin.java
+│   │   │                       ├── StreamingDimensionJoin.java
+│   │   │                       ├── StreamingJoin.java
 │   │   │                       └── t_pojo.sql
 │   │   └── resources
 │   │       └── log4j.properties
@@ -71,8 +101,6 @@ $ tree
 │                   │   ├── KafkaConsumerTest.java
 │                   │   └── KafkaProducerTest.java
 │                   └── rocketmq
-
-
 ```
 
 #### main
@@ -232,6 +260,8 @@ my-topic-0-9-1554361349391
 ```
 
 ##### RocketMQ
+
+[rocketmq-flink](https://github.com/apache/rocketmq-externals/tree/master/rocketmq-flink)
 
 Producer：SyncProducer AsyncProducer OnewayProducer  
 Consumer：DefaultMQPushConsumer，DefaultMQPullConsumer

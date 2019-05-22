@@ -1,0 +1,3 @@
+### 类似Spark离线处理数据（批处理）
+
+似乎没有Spark好用，特别是成熟的hive整合，Functions，persist...

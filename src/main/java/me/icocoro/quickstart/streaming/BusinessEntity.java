@@ -7,7 +7,7 @@ import java.math.BigInteger;
 /**
  * 业务实体类
  */
-public class TradePayInfo implements Serializable {
+public class BusinessEntity implements Serializable {
 
     private static final long serialVersionUID = 5954824327295213329L;
     private String tradePayId;
@@ -73,7 +73,7 @@ public class TradePayInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "TradePayInfo{" +
+        return "BusinessEntity{" +
                 "tradePayId='" + tradePayId + '\'' +
                 ", tradeNo='" + tradeNo + '\'' +
                 ", orderNo='" + orderNo + '\'' +

@@ -40,12 +40,12 @@ public class KafkaToHBaseJob {
         env.enableCheckpointing(1000);
 
         // 注意Kafka版本 extends FlinkKafkaConsumer010，反序列化为TradePayInfo
-        DataStream<TradePayInfo> transaction = env.addSource(new FlinkKafkaConsumer011<TradePayInfo>(topic, new TradePayInfoSchema(), configByKafka()));
+        DataStream<BusinessEntity> transaction = env.addSource(new FlinkKafkaConsumer011<BusinessEntity>(topic, new TradePayInfoSchema(), configByKafka()));
         // 纯粹做数据存储
-        transaction.rebalance().map(new MapFunction<TradePayInfo, Object>() {
+        transaction.rebalance().map(new MapFunction<BusinessEntity, Object>() {
             private static final long serialVersionUID = 1L;
 
-            public TradePayInfo map(TradePayInfo tradePayInfo) throws IOException {
+            public BusinessEntity map(BusinessEntity tradePayInfo) throws IOException {
                 // tablename rowkey cf:field dateformat如20190403 这里的操作显然还有优化空间
                 write2HBase("dateformat" + tradePayInfo.getTradePayId(), "baseinfo", "trade_pay_id", tradePayInfo.getTradePayId());
                 write2HBase("dateformat" + tradePayInfo.getTradePayId(), "baseinfo", "trade_no", tradePayInfo.getTradeNo());
@@ -64,30 +64,30 @@ public class KafkaToHBaseJob {
     }
 
     // 自定义反序列化Schema 消息msg为json串
-    static class TradePayInfoSchema implements DeserializationSchema<TradePayInfo>, SerializationSchema<TradePayInfo> {
+    static class TradePayInfoSchema implements DeserializationSchema<BusinessEntity>, SerializationSchema<BusinessEntity> {
 
         private static final long serialVersionUID = -6141464537937744275L;
 
         @Override
-        public TradePayInfo deserialize(byte[] bytes) throws IOException {
+        public BusinessEntity deserialize(byte[] bytes) throws IOException {
             System.out.printf("msg---- " + new String(bytes));
             // 这里最好做个判断，消息是不是符合预期，可返回null，而不是报错抛出
-            return JSON.parseObject(new String(bytes), TradePayInfo.class);
+            return JSON.parseObject(new String(bytes), BusinessEntity.class);
         }
 
         @Override
-        public boolean isEndOfStream(TradePayInfo tradePayInfo) {
+        public boolean isEndOfStream(BusinessEntity tradePayInfo) {
             return false;
         }
 
         @Override
-        public byte[] serialize(TradePayInfo tradePayInfo) {
+        public byte[] serialize(BusinessEntity tradePayInfo) {
             return JSON.toJSONString(tradePayInfo).getBytes();
         }
 
         @Override
-        public TypeInformation<TradePayInfo> getProducedType() {
-            return TypeExtractor.getForClass(TradePayInfo.class);
+        public TypeInformation<BusinessEntity> getProducedType() {
+            return TypeExtractor.getForClass(BusinessEntity.class);
         }
     }
 

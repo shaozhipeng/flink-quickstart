@@ -1,4 +1,4 @@
 package me.icocoro.quickstart.streaming.sql;
 
-public class StreamJoin {
+public class StreamingJoin {
 }

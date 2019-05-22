@@ -118,18 +118,13 @@ under the License.
 		</dependency>
 		<dependency>
 			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-connector-kafka-0.11_2.11</artifactId>
-			<version>1.7.2</version>
+			<artifactId>flink-connector-kafka-0.11_${scala.binary.version}</artifactId>
+			<version>${flink.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-hbase_2.11</artifactId>
-			<version>1.7.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-common</artifactId>
-			<version>2.7.4</version>
+			<artifactId>flink-hbase_${scala.binary.version}</artifactId>
+			<version>${flink.version}</version>
 		</dependency>
 
 		<dependency>
@@ -140,8 +135,8 @@ under the License.
 
 		<dependency>
 			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-jdbc_2.11</artifactId>
-			<version>1.7.2</version>
+			<artifactId>flink-jdbc_${scala.binary.version}</artifactId>
+			<version>${flink.version}</version>
 		</dependency>
 
 		<dependency>
@@ -158,8 +153,26 @@ under the License.
 
 		<dependency>
 			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-cep_2.11</artifactId>
-			<version>1.7.2</version>
+			<artifactId>flink-cep_${scala.binary.version}</artifactId>
+			<version>${flink.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-connector-filesystem_2.11</artifactId>
+			<version>${flink.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-common</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-hdfs</artifactId>
+			<version>2.8.5</version>
 		</dependency>
 
 	</dependencies>

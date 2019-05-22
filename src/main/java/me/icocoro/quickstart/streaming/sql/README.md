@@ -140,7 +140,9 @@ CREATE TABLE `t_pojo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 ```
 
+
 ![image](http://images.icocoro.me/images/new/20190411.png)
+
 
 ### 如果只是纯粹输出流数据，是即时的，全部消息都会消费到（打印输出），说明FlinkSQL的window触发和销毁有点问题【需要调整Watermark？】
 ### Flink消费kafka不及时？
