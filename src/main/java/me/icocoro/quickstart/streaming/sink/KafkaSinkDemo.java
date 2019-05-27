@@ -55,7 +55,7 @@ public class KafkaSinkDemo {
 
             private static final long serialVersionUID = -7123696196337628777L;
 
-        }).addSink(new FlinkKafkaProducer011<>("kafka-sink-demo", new SimpleStringSchema(), properties));
+        }).addSink(new FlinkKafkaProducer011<>("kafka-sink-demo", new SimpleStringSchema(), properties)).name("FlinkKafkaProducer011-0");
 
         // 开始执行程序-设置一个Job名称
         env.execute("Streaming-" + KafkaSinkDemo.class.getSimpleName());

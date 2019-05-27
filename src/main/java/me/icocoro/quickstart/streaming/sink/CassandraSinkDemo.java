@@ -3,15 +3,16 @@ package me.icocoro.quickstart.streaming.sink;
 import me.icocoro.quickstart.WordCount;
 import me.icocoro.quickstart.WordCountData;
 import org.apache.flink.api.common.functions.FlatMapFunction;
-import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.fs.bucketing.BucketingSink;
+import org.apache.flink.streaming.connectors.cassandra.CassandraSink;
 import org.apache.flink.util.Collector;
 
-public class HDFSSinkDemo {
+import java.sql.Timestamp;
+
+public class CassandraSinkDemo {
     public static void main(String[] args) throws Exception {
 
         // 命令行参数
@@ -38,16 +39,9 @@ public class HDFSSinkDemo {
                         // 根据word分组 对Integer求和
                         .keyBy(0).sum(1);
 
-        // 将结果输出到HDFS
-        counts.map(new MapFunction<Tuple2<String, Integer>, String>() {
-            @Override
-            public String map(Tuple2<String, Integer> e) throws Exception {
-                return e.f0 + "\001" + e.f1;
-            }
-
-            private static final long serialVersionUID = -7123696196337628777L;
-
-        }).addSink(new BucketingSink<>("hdfs://localhost/test/output3")).name("BucketingSink-0");
+        // 将结果输出到Cassandra
+        String insertSql = "INSERT INTO test.wd (word, cnt, atime, update_time) VALUES (?,?,'" + new Timestamp(System.currentTimeMillis()) + "',NOW())";
+        CassandraSink.addSink(counts).setHost("localhost").setQuery(insertSql).build().name("CassandraSink-0");
 
 
         // 开始执行程序-设置一个Job名称
