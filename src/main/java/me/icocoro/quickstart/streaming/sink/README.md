@@ -56,8 +56,6 @@ JDBCAppendTableSink会在Job被Cancel的时候将数据保存到数据库。
 
 设置env.enableCheckpointing(checkpoint);之后才可以及时保存到数据库。
 
-另外1.7.2的flink + 2.8.5的Hadoop做checkpoint是有问题的，并发写入HDFS报异常。
-
 #### Cassandra
 
 ```bash
