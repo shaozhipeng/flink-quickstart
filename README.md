@@ -14,7 +14,7 @@
 
 #### Open platform
 
-[Open platform]()
+[Open platform](https://github.com/shaozhipeng/flink-quickstart/tree/master/src/main/java/me/icocoro/quickstart/openplatform)
 
 ### Resources、examples and training exercises
 

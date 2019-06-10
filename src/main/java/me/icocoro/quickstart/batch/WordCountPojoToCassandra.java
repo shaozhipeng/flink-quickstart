@@ -166,7 +166,7 @@ public class WordCountPojoToCassandra {
 
                 @Override
                 protected Cluster buildCluster(Cluster.Builder builder) {
-                    return builder.addContactPoint("localhost").build();
+                    return builder.addContactPoint("127.0.0.1").build();
                 }
             }, Word.class));
             env.execute("WordCount-Pojo Example");

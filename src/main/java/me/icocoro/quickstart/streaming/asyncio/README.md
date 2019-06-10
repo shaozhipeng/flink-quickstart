@@ -1,5 +1,19 @@
 ### 使用异步IO访问外部数据
 
+#### DEMO
+
+```sql
+CREATE TABLE test.xxx (
+	id TEXT,
+	type TEXT,
+	price DOUBLE,
+	create_time TIMESTAMP,
+    update_time TIMESTAMP,
+    uid TIMEUUID,
+    PRIMARY KEY(id, uid)
+) WITH CLUSTERING ORDER BY (uid DESC);
+```
+
 #### 异步IO操作的需求
 
 &emsp;Flink在做流数据计算时，很多时候需要与外部系统进行交互（比如数据库、Redis、Hive、HBase等等存储系统）。  
