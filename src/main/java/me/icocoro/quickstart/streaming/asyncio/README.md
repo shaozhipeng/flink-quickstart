@@ -16,7 +16,7 @@
 &emsp;通过将MapFunction扩展到非常高的并行度来提高吞吐量在某些情况下也是可能的，但通常需要非常高的资源成本：  
 &emsp;拥有更多并行MapFunction实例意味着更多的任务、线程、Flink内部网络连接、与外部系统的网络连接、缓冲区、还有一般的内部「簿记」开销。
 
-![image](http://images.icocoro.me/images/new/20190530000.png)
+![image](http://images.icocoro.me//images/new/20190530000.png)
 
 #### 使用异步IO的先决条件
 

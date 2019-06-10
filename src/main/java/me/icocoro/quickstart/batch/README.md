@@ -2,4 +2,4 @@
 
 ### WordCountPojoToCassandra
 
-![image](http://images.icocoro.me/images/new/20190604000.png)
+![image](http://images.icocoro.me//images/new/20190604000.png)
