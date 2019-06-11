@@ -41,7 +41,7 @@ public class CassandraSinkDemo {
 
         // 将结果输出到Cassandra
         String insertSql = "INSERT INTO test.wd (word, cnt, atime, update_time) VALUES (?,?,'" + new Timestamp(System.currentTimeMillis()) + "',NOW())";
-        CassandraSink.addSink(counts).setHost("localhost").setQuery(insertSql).build().name("CassandraSink-0");
+        CassandraSink.addSink(counts).setHost("127.0.0.1").setQuery(insertSql).build().name("CassandraSink-0");
 
 
         // 开始执行程序-设置一个Job名称
