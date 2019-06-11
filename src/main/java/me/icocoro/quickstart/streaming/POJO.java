@@ -7,7 +7,6 @@ import java.sql.Date;
 
 /**
  * 业务数据封装的实体类
- * 和Spark相比，社区版的Flink就是个半成品，修修补补自定义，根本上不了生产
  */
 public class POJO implements Serializable {
     private static final long serialVersionUID = -4281155263332879073L;
