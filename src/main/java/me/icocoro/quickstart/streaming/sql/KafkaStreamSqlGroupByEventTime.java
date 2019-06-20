@@ -1,6 +1,6 @@
 package me.icocoro.quickstart.streaming.sql;
 
-import me.icocoro.quickstart.streaming.POJO;
+import me.icocoro.quickstart.streaming.test.POJO;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;

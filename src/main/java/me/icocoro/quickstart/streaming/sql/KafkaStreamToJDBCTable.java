@@ -1,7 +1,7 @@
 package me.icocoro.quickstart.streaming.sql;
 
-import me.icocoro.quickstart.streaming.ObjectSchema;
-import me.icocoro.quickstart.streaming.POJO;
+import me.icocoro.quickstart.streaming.test.ObjectSchema;
+import me.icocoro.quickstart.streaming.test.POJO;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;

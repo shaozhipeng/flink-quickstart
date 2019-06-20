@@ -80,6 +80,7 @@ oneOrMore() 排列组合 一共19个-有点像量子
 2> LoginWarning{userId='3', type='192.168.10.10', ip='fail'}
 2> LoginWarning{userId='3', type='192.168.10.10', ip='fail'}
 2> LoginWarning{userId='3', type='192.168.10.11', ip='fail'}
+```
 
 timesOrMore(2);
 
