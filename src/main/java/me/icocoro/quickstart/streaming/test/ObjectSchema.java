@@ -1,4 +1,4 @@
-package me.icocoro.quickstart.streaming;
+package me.icocoro.quickstart.streaming.test;
 
 import com.google.gson.Gson;
 import org.apache.flink.api.common.serialization.DeserializationSchema;

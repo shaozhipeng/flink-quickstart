@@ -1,4 +1,4 @@
-package me.icocoro.quickstart.streaming;
+package me.icocoro.quickstart.streaming.test;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.net.ntp.TimeStamp;

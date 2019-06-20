@@ -1,4 +1,4 @@
-package me.icocoro.quickstart.streaming;
+package me.icocoro.quickstart.streaming.test;
 
 
 import java.io.Serializable;
