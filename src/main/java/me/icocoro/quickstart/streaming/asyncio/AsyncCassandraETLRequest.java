@@ -64,7 +64,6 @@ public class AsyncCassandraETLRequest
 
     @Override
     public void timeout(Tuple4<String, String, Double, Time> input, ResultFuture<String> resultFuture) {
-        // 异步查询超时，10000条数据还是全部入库了的
         logger.info("timeout: " + input);
     }
 
@@ -82,6 +81,7 @@ public class AsyncCassandraETLRequest
                     logger.info(insertCql);
                     String updateCqlCql = "";
                     ResultSet rs = session.execute(cql);
+                    // 这里仍是异步返回结果，是无法做出rs判断的，这里只适合做单一或不同行的批量增删改查
                     if (rs != null && rs.all() != null && rs.all().size() > 0) {
 //                            session.execute(updateCqlCql);
                     } else {
@@ -113,8 +113,8 @@ public class AsyncCassandraETLRequest
 
         Futures.addCallback(rr, new FutureCallback<String>() {
             public void onSuccess(String r) {
-                // ETL here nothing to do.
-                // 如果需要返回完整的数据 则调用complete
+                // 此处必须调用resultFuture.complete，否则会报超时
+                // AsyncWaitOperator.processElement
                 resultFuture.complete(Arrays.asList(r));
             }
 
