@@ -17,6 +17,7 @@ public class POJO implements Serializable {
     private BigDecimal energy;
     private Integer age;
     private Date tt;
+    private String astatus;
 
     public String getAid() {
         return aid;
@@ -74,6 +75,14 @@ public class POJO implements Serializable {
         this.tt = tt;
     }
 
+    public String getAstatus() {
+        return astatus;
+    }
+
+    public void setAstatus(String astatus) {
+        this.astatus = astatus;
+    }
+
     @Override
     public String toString() {
         return "POJO{" +
@@ -84,6 +93,7 @@ public class POJO implements Serializable {
                 ", energy=" + energy +
                 ", age=" + age +
                 ", tt=" + tt +
+                ", astatus='" + astatus + '\'' +
                 '}';
     }
 }
