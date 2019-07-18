@@ -1,5 +1,7 @@
 package me.icocoro.quickstart.streaming.cep.api;
 
+import org.apache.flink.api.common.functions.FilterFunction;
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.cep.CEP;
 import org.apache.flink.cep.PatternStream;
 import org.apache.flink.cep.pattern.Pattern;
@@ -197,7 +199,7 @@ public class FlinkCEPTest {
             return loginWarnings.toString();
         });
 
-        newPatternStream.print();
+        newPatternStream.filter((FilterFunction<String>) s -> s.contains("userId='1'")).print();
 
         env.execute();
 
