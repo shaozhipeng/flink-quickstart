@@ -1,7 +1,7 @@
 package me.icocoro.quickstart.streaming.cep.api;
 
-import me.icocoro.quickstart.streaming.POJO;
 import me.icocoro.quickstart.streaming.sql.POJOSchema;
+import me.icocoro.quickstart.streaming.test.POJO;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.cep.CEP;
@@ -19,9 +19,6 @@ import org.apache.flink.table.api.TableEnvironment;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
