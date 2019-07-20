@@ -1,3 +1,49 @@
+### FlinkCEP Timeout
+
+使用摄取时间作为事件时间，A事件 followedBy和next B事件 结合OutputTag可以匹配出超时事件。  
+【followedBy和next的区别在于A和B之间还有没有其他事件。】
+
+#### followedBy
+
+```text
+3> POJO{aid='ID000-0', astyle='STYLE000-0', aname='NAME-0', logTime=1563419728242, energy=529.00, age=0, tt=2019-07-18, astatus='02', createTime=null, updateTime=null}
+3> POJO{aid='ID000-1', astyle='STYLE000-2', aname='NAME-1', logTime=1563419728783, energy=348.00, age=26, tt=2019-07-18, astatus='02', createTime=null, updateTime=null}
+3> POJO{aid='ID000-0', astyle='STYLE000-0', aname='NAME-0', logTime=1563419749259, energy=492.00, age=0, tt=2019-07-18, astatus='00', createTime=null, updateTime=null}
+flatSelect: {init=[POJO{aid='ID000-0', astyle='STYLE000-0', aname='NAME-0', logTime=1563419728242, energy=529.00, age=0, tt=2019-07-18, astatus='02', createTime=null, updateTime=null}], end=[POJO{aid='ID000-0', astyle='STYLE000-0', aname='NAME-0', logTime=1563419749259, energy=492.00, age=0, tt=2019-07-18, astatus='00', createTime=null, updateTime=null}]}
+timeout init:ID000-1
+3> POJO{aid='ID000-1', astyle='STYLE000-2', aname='NAME-1', logTime=1563419728783, energy=348.00, age=26, tt=2019-07-18, astatus='02', createTime=null, updateTime=null}
+timeout end: null
+3> POJO{aid='ID000-2', astyle='STYLE000-0', aname='NAME-0', logTime=1563419829639, energy=467.00, age=0, tt=2019-07-18, astatus='03', createTime=null, updateTime=null}
+3> POJO{aid='ID000-2', astyle='STYLE000-0', aname='NAME-0', logTime=1563419841394, energy=107.00, age=0, tt=2019-07-18, astatus='00', createTime=null, updateTime=null}
+3> POJO{aid='ID000-3', astyle='STYLE000-0', aname='NAME-0', logTime=1563419967721, energy=431.00, age=0, tt=2019-07-18, astatus='02', createTime=null, updateTime=null}
+3> POJO{aid='ID000-3', astyle='STYLE000-2', aname='NAME-0', logTime=1563419979567, energy=32.00, age=26, tt=2019-07-18, astatus='03', createTime=null, updateTime=null}
+3> POJO{aid='ID000-3', astyle='STYLE000-2', aname='NAME-0', logTime=1563419993612, energy=542.00, age=26, tt=2019-07-18, astatus='01', createTime=null, updateTime=null}
+flatSelect: {init=[POJO{aid='ID000-3', astyle='STYLE000-0', aname='NAME-0', logTime=1563419967721, energy=431.00, age=0, tt=2019-07-18, astatus='02', createTime=null, updateTime=null}], end=[POJO{aid='ID000-3', astyle='STYLE000-2', aname='NAME-0', logTime=1563419993612, energy=542.00, age=26, tt=2019-07-18, astatus='01', createTime=null, updateTime=null}]}
+3> POJO{aid='ID000-4', astyle='STYLE000-0', aname='NAME-0', logTime=1563420063760, energy=122.00, age=0, tt=2019-07-18, astatus='02', createTime=null, updateTime=null}
+3> POJO{aid='ID000-4', astyle='STYLE000-0', aname='NAME-0', logTime=1563420078008, energy=275.00, age=0, tt=2019-07-18, astatus='03', createTime=null, updateTime=null}
+timeout init:ID000-4
+3> POJO{aid='ID000-4', astyle='STYLE000-0', aname='NAME-0', logTime=1563420063760, energy=122.00, age=0, tt=2019-07-18, astatus='02', createTime=null, updateTime=null}
+timeout end: null
+```
+
+#### next
+
+```text
+3> POJO{aid='ID000-9', astyle='STYLE000-9', aname='NAME-9', logTime=1562830147301, energy=420.39, age=81, tt=2019-07-11, astatus='02'}
+timeout:ID000-9
+1> POJO{aid='ID000-9', astyle='STYLE000-9', aname='NAME-9', logTime=1562830147301, energy=420.39, age=81, tt=2019-07-11, astatus='02'}
+3> POJO{aid='ID000-4', astyle='STYLE000-4', aname='NAME-4', logTime=1562830231124, energy=149.83, age=36, tt=2019-07-11, astatus='02'}
+3> POJO{aid='ID000-4', astyle='STYLE000-3', aname='NAME-3', logTime=1562830268425, energy=416.36, age=27, tt=2019-07-11, astatus='03'}
+3> POJO{aid='ID000-4', astyle='STYLE000-9', aname='NAME-9', logTime=1562830277325, energy=540.21, age=81, tt=2019-07-11, astatus='00'}
+3> POJO{aid='ID000-7', astyle='STYLE000-7', aname='NAME-7', logTime=1562830303106, energy=356.31, age=63, tt=2019-07-11, astatus='02'}
+timeout:ID000-7
+2> POJO{aid='ID000-7', astyle='STYLE000-7', aname='NAME-7', logTime=1562830303106, energy=356.31, age=63, tt=2019-07-11, astatus='02'}
+```
+
+[https://stackoverflow.com/questions/36573715/apache-flink-cep-pattern-operation-for-not-followedby](https://stackoverflow.com/questions/36573715/apache-flink-cep-pattern-operation-for-not-followedby)
+
+[https://stackoverflow.com/questions/38368087/apache-flink-cep-timout-pattern-in-not-defined-by-time-window](https://stackoverflow.com/questions/38368087/apache-flink-cep-timout-pattern-in-not-defined-by-time-window)
+
 ### FlinkCEP API
 
 需要注意的是：
