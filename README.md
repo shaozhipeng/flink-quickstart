@@ -22,7 +22,7 @@
 [flink-training-exercises](https://github.com/shaozhipeng/flink-training-exercises)  
 [zh-community](https://zh.ververica.com/)  
 [flink-training-course](https://github.com/flink-china/flink-training-course)  
-关注公众号回复 Flink 有Flink视频链接，😊 欢迎Star、Fork、New Issue、公众号留言提建议...
+关注公众号回复 Flink 有Flink视频链接，欢迎Star、Fork
 
 #### 交流学习  
 
@@ -39,105 +39,3 @@ git add README.md
 git commit -m 'flink-quickstart first commit'  
 git remote add origin https://github.com/shaozhipeng/flink-quickstart.git  
 git push -u origin master 
-
-### 代码结构
-
-```bash
-$ tree
-.
-├── README.md
-├── pom.xml
-├── src
-│   ├── main
-│   │   ├── java
-│   │   │   └── me
-│   │   │       └── icocoro
-│   │   │           └── quickstart
-│   │   │               ├── WordCount.java
-│   │   │               ├── WordCountData.java
-│   │   │               ├── batch
-│   │   │               │   ├── README.md
-│   │   │               │   ├── WordCountPojoToCassandra.java
-│   │   │               │   ├── jdbc
-│   │   │               │   └── table
-│   │   │               ├── configuration
-│   │   │               ├── deploy
-│   │   │               ├── issures
-│   │   │               ├── metrics
-│   │   │               ├── openplatform
-│   │   │               │   └── README.md
-│   │   │               ├── performance
-│   │   │               ├── sourcecode
-│   │   │               │   └── README.md
-│   │   │               ├── streaming
-│   │   │               │   ├── asyncio
-│   │   │               │   │   ├── AsyncCassandraETLRequest.java
-│   │   │               │   │   ├── AsyncHBaseRequest.java
-│   │   │               │   │   ├── AsyncIOJob.java
-│   │   │               │   │   ├── AsyncRedisRequest.java
-│   │   │               │   │   └── README.md
-│   │   │               │   ├── cep
-│   │   │               │   │   ├── README.md
-│   │   │               │   │   ├── api
-│   │   │               │   │   │   ├── CEPMonitoring.java
-│   │   │               │   │   │   ├── FlinkCEPTest.java
-│   │   │               │   │   │   ├── HopCEPTest.java
-│   │   │               │   │   │   ├── README.md
-│   │   │               │   │   │   ├── events
-│   │   │               │   │   │   │   ├── MonitoringEvent.java
-│   │   │               │   │   │   │   ├── PowerEvent.java
-│   │   │               │   │   │   │   ├── TemperatureAlert.java
-│   │   │               │   │   │   │   ├── TemperatureEvent.java
-│   │   │               │   │   │   │   └── TemperatureWarning.java
-│   │   │               │   │   │   └── sources
-│   │   │               │   │   │       └── MonitoringEventSource.java
-│   │   │               │   │   └── sql
-│   │   │               │   ├── join
-│   │   │               │   │   ├── WindowJoin.java
-│   │   │               │   │   └── WindowJoinSampleData.java
-│   │   │               │   ├── rocketmq
-│   │   │               │   │   └── README.md
-│   │   │               │   ├── sink
-│   │   │               │   │   ├── CassandraSinkDemo.java
-│   │   │               │   │   ├── HDFSSinkDemo.java
-│   │   │               │   │   ├── KafkaSinkDemo.java
-│   │   │               │   │   └── README.md
-│   │   │               │   ├── source
-│   │   │               │   │   └── README.md
-│   │   │               │   ├── sql
-│   │   │               │   │   ├── KafkaStreamSqlGroupByEventTime.java
-│   │   │               │   │   ├── KafkaStreamSqlGroupByProcessingTime.java
-│   │   │               │   │   ├── KafkaStreamToJDBCTable.java
-│   │   │               │   │   ├── MessageProducer.java
-│   │   │               │   │   ├── POJOSchema.java
-│   │   │               │   │   ├── README.md
-│   │   │               │   │   ├── SQLTester.java
-│   │   │               │   │   ├── StreamingDimensionJoin.java
-│   │   │               │   │   ├── StreamingJoin.java
-│   │   │               │   │   └── t_pojo.sql
-│   │   │               │   └── test
-│   │   │               │       ├── BusinessEntity.java
-│   │   │               │       ├── KafkaToHBaseJob.java
-│   │   │               │       ├── ObjectSchema.java
-│   │   │               │       ├── POJO.java
-│   │   │               │       └── StreamKafkaProducer.java
-│   │   │               └── utils
-│   │   │                   └── ThrottledIterator.java
-│   │   ├── resources
-│   │   │   └── logback.xml
-│   │   └── scala
-│   │       └── com
-│   │           └── xiaoxiang
-│   └── test
-│       └── java
-│           └── me
-│               └── icocoro
-│                   ├── hbase
-│                   │   └── HBaseClientTest.java
-│                   ├── kafka
-│                   │   ├── KafkaConsumerTest.java
-│                   │   └── KafkaProducerTest.java
-│                   └── rocketmq
-├── summary
-│   └── README.md
-```
