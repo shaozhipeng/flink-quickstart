@@ -13,11 +13,14 @@ public class POJO implements Serializable {
     private String aid;
     private String astyle;
     private String aname;
+    // Invalid FLOAT constant (1.564998357049E12) for "log_time" of type bigint
     private Long logTime;
     private BigDecimal energy;
     private Integer age;
     private Date tt;
     private String astatus;
+    private String createTime;
+    private String updateTime;
 
     public String getAid() {
         return aid;
@@ -83,6 +86,22 @@ public class POJO implements Serializable {
         this.astatus = astatus;
     }
 
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "POJO{" +
@@ -94,6 +113,8 @@ public class POJO implements Serializable {
                 ", age=" + age +
                 ", tt=" + tt +
                 ", astatus='" + astatus + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }

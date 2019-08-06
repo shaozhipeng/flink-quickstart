@@ -1,18 +1,84 @@
-### 使用异步IO访问外部数据
+### MySQL-binlog
 
-#### DEMO
+数据湖
+
+#### binlog和KafkaProducer
+
+binlog的特点  
+mysql开启binlog  
+实时解析binlog发送给Kafka  
+
+https://github.com/alibaba/canal/releases/download/canal-1.1.3/canal.deployer-1.1.3.tar.gz
+
+#### AsyncRedisRequest
+
+能明确先后顺序的时间戳  
+使用Redisson异步可能会有大量超时，经测试，直接使用Jedis同步访问Redis效果也是很好的
+
+#### AsyncCassandraRequest
+
+插入式更新
 
 ```sql
-CREATE TABLE test.xxx (
-	id TEXT,
-	type TEXT,
-	price DOUBLE,
-	create_time TIMESTAMP,
-    update_time TIMESTAMP,
-    uid TIMEUUID,
-    PRIMARY KEY(id, uid)
-) WITH CLUSTERING ORDER BY (uid DESC);
+CREATE KEYSPACE M WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 1};
+
+CREATE TABLE M.M_POJO (
+  AID TEXT,
+  ASTYLE TEXT,
+  ANAME TEXT,
+  LOG_TIME BIGINT,
+  ENERGY DECIMAL,
+  AGE INT,
+  ASTATUS TEXT,
+  CREATE_TIME TEXT,
+  UPDATE_TIME TEXT,
+  TS_CREATE_TIME TIMESTAMP,
+  TS_UPDATE_TIME TIMESTAMP,
+  SYS_UPDATE_TIME TIMESTAMP,
+  SYS_CREATE_TIME TIMESTAMP,
+  PRIMARY KEY((AID, ASTYLE, ASTATUS), TS_CREATE_TIME)
+) WITH CLUSTERING ORDER BY (TS_CREATE_TIME DESC);
 ```
+
+```java
+for (int i = 0; i < 100000; i++) {
+    POJO pojo = new POJO();
+    int j = random.nextInt(5);
+    pojo.setAid("ID000-" + i);
+    pojo.setAname("NAME-" + i);
+    pojo.setAstyle("STYLE000-" + j);
+    pojo.setEnergy(new BigDecimal(random.nextInt(1000)).setScale(2, RoundingMode.HALF_UP));
+    pojo.setAge((j == 0 ? 1 : j) * 13);
+    long time = System.currentTimeMillis();
+    pojo.setTt(new Date(time));
+    pojo.setLogTime(time);
+
+    ZoneId shanghaiZoneId = ZoneId.of("Asia/Shanghai");
+    ZonedDateTime shanghaiZonedDateTime = ZonedDateTime.now(shanghaiZoneId);
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+
+    pojo.setCreateTime(shanghaiZonedDateTime.format(formatter));
+    pojo.setUpdateTime(shanghaiZonedDateTime.format(formatter));
+
+    pojo.setAstatus("0" + j);
+
+    String value = gson.toJson(pojo);
+
+    producer.send(new ProducerRecord<String, String>(AsyncCassandraJob.class.getSimpleName(), Integer.toString(i), value));
+
+    System.out.println(value);
+
+}
+```
+
+#### CassandraSink
+
+#### KuduSink
+
+### Oracle OGG
+
+### 异步IO
 
 #### 异步IO操作的需求
 
