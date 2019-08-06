@@ -267,3 +267,11 @@ org.apache.calcite.runtime.SqlFunctions
 1. 使用processing-time。
 2. 『保证』流数据事件时间间隔小且最好连续顺序且永不中断。
 3. assignWindows时确定的窗口end时间只要到了自然时间点就触发TriggerResult就可以『保证』实时结果了，通过自定义TimeTrigger加个定时器（但是不知如何应用于SQL）。
+
+[https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/event_time.html](https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/event_time.html)
+
+Currently, with pure event time watermarks generators, watermarks can not progress if there are no elements to be processed. That means in case of gap in the incoming data, event time will not progress and for example the window operator will not be triggered and thus existing windows will not be able to produce any output data.
+
+To circumvent this one can use periodic watermark assigners that don’t only assign based on element timestamps. An example solution could be an assigner that switches to using current processing time as the time basis after not observing new events for a while.
+
+Sources can be marked as idle using SourceFunction.SourceContext#markAsTemporarilyIdle. For details please refer to the Javadoc of this method as well as StreamStatus.
