@@ -1,5 +1,9 @@
 ### Streaming
 
+#### 实时热门电影的计算
+
+[HotMoviesJob](https://github.com/shaozhipeng/flink-quickstart/tree/master/src/main/java/me/icocoro/quickstart/streaming/hotmovies)
+
 #### Streaming SQL
 
 [FlinkStreamingSQL DEMO](https://github.com/shaozhipeng/flink-quickstart/tree/master/src/main/java/me/icocoro/quickstart/streaming/sql)
