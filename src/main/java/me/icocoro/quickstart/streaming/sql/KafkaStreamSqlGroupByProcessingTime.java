@@ -31,7 +31,7 @@ public class KafkaStreamSqlGroupByProcessingTime {
 
         pojoDataStream.print();
 
-        final StreamTableEnvironment tEnv = TableEnvironment.getTableEnvironment(env);
+        final StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
         tEnv.registerDataStream("t_pojo", pojoDataStream, "aid, astyle, energy, age, proctime.proctime");
 
         Table results =

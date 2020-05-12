@@ -33,7 +33,7 @@ public class KafkaStreamSqlGroupByEventTime {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 
-        final StreamTableEnvironment tableEnv = TableEnvironment.getTableEnvironment(env);
+        final StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         Properties kafkaProps = new Properties();

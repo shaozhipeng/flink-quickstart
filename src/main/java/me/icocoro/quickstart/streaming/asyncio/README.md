@@ -13,7 +13,11 @@ https://github.com/alibaba/canal/releases/download/canal-1.1.3/canal.deployer-1.
 #### AsyncRedisRequest
 
 能明确先后顺序的时间戳  
-使用Redisson异步可能会有大量超时，经测试，直接使用Jedis同步访问Redis效果也是很好的
+使用Redisson异步可能会有大量超时，经测试，直接使用Jedis同步访问Redis效果也是很好的。
+
+异步API可以使用Lettuce，注意Netty版本兼容。  
+[Lettuce - Advanced Java Redis client](https://github.com/lettuce-io/lettuce-core)  
+[https://lettuce.io/core/release/reference/index.html](https://lettuce.io/core/release/reference/index.html)
 
 #### AsyncCassandraRequest
 

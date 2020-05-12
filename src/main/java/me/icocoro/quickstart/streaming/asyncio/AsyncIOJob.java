@@ -86,7 +86,7 @@ public class AsyncIOJob {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 
-        final StreamTableEnvironment tableEnv = TableEnvironment.getTableEnvironment(env);
+        final StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         final int port = 3901;
@@ -101,9 +101,9 @@ public class AsyncIOJob {
                 .assignTimestampsAndWatermarks(extractor);
 
 //        dataStream.print();
-        DataStream<String> resultStream = AsyncDataStream.orderedWait(dataStream, new AsyncCassandraETLRequest(), 1000, TimeUnit.MILLISECONDS, 100);
+//        DataStream<String> resultStream = AsyncDataStream.orderedWait(dataStream, new AsyncCassandraRequest(), 1000, TimeUnit.MILLISECONDS, 100);
 
-        resultStream.print();
+//        resultStream.print();
 
         env.execute();
     }

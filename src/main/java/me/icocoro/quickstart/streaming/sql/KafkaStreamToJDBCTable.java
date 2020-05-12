@@ -15,7 +15,6 @@ import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExt
 import org.apache.flink.streaming.api.watermark.Watermark;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
 import org.apache.flink.table.api.Table;
-import org.apache.flink.table.api.TableEnvironment;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 
@@ -87,7 +86,7 @@ public class KafkaStreamToJDBCTable {
         env.getConfig().disableSysoutLogging();
         env.getConfig().setRestartStrategy(RestartStrategies.fixedDelayRestart(4, 10000));
 
-        final StreamTableEnvironment tableEnv = TableEnvironment.getTableEnvironment(env);
+        final StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         Properties kafkaProps = new Properties();
@@ -130,7 +129,7 @@ public class KafkaStreamToJDBCTable {
                 .setParameterTypes(FIELD_TYPES)
                 .build();
 
-        DataStream<Row> dataStream = tableEnv.toAppendStream(table, Row.class, tableEnv.queryConfig());
+        DataStream<Row> dataStream = tableEnv.toAppendStream(table, Row.class);
         // 可以正常入库
         sink.emitDataStream(dataStream);
 

@@ -30,7 +30,7 @@ under the License.
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <flink.version>1.7.2</flink.version>
+        <flink.version>1.9.3</flink.version>
         <java.version>1.8</java.version>
         <scala.binary.version>2.11</scala.binary.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -70,7 +70,12 @@ under the License.
         <!-- 下面的不能为provided -->
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table_${scala.binary.version}</artifactId>
+            <artifactId>flink-table-api-java-bridge_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner-blink_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
@@ -158,9 +163,9 @@ under the License.
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>ojdbc</groupId>-->
-            <!--<artifactId>ojdbc</artifactId>-->
-            <!--<version>14</version>-->
+        <!--<groupId>ojdbc</groupId>-->
+        <!--<artifactId>ojdbc</artifactId>-->
+        <!--<version>14</version>-->
         <!--</dependency>-->
 
         <!-- ojdbc8.jar for Oracle Database 18c (18.3) JDBC Driver -->
@@ -250,6 +255,59 @@ under the License.
             <artifactId>flink-connector-elasticsearch6_2.11</artifactId>
             <version>1.7.2</version>
         </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.apache.phoenix</groupId>-->
+        <!--<artifactId>phoenix-core</artifactId>-->
+        <!--<version>4.14.3-HBase-1.4</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.apache.phoenix</groupId>
+            <artifactId>phoenix-queryserver-client</artifactId>
+            <version>4.14.3-HBase-1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-jdbc</artifactId>
+            <version>1.1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.hive</groupId>
+                    <artifactId>hive-service-rpc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hive</groupId>
+                    <artifactId>hive-service</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.apache.hive</groupId>-->
+        <!--<artifactId>hive-metastore</artifactId>-->
+        <!--<version>3.1.0.3.1.0.6-1</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-service</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
 
     </dependencies>
 

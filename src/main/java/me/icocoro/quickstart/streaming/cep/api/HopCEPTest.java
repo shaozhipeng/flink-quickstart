@@ -61,7 +61,7 @@ public class HopCEPTest {
 
 //        pojoDataStream.print();
 
-        final StreamTableEnvironment tEnv = TableEnvironment.getTableEnvironment(env);
+        final StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
         tEnv.registerDataStream("t_pojo", pojoDataStream, "aid, astyle, energy, age, rowtime.rowtime");
 
         // 30秒滑动一次

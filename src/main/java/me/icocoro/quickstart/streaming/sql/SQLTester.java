@@ -84,7 +84,7 @@ public class SQLTester {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 
-        final StreamTableEnvironment tableEnv = TableEnvironment.getTableEnvironment(env);
+        final StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         final int port = 3901;
