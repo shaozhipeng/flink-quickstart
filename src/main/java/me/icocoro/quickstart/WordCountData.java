@@ -1,5 +1,6 @@
 package me.icocoro.quickstart;
 
+import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 
@@ -45,5 +46,9 @@ public class WordCountData {
 
     public static DataSet<String> getDefaultTextLineDataSet(ExecutionEnvironment env) {
         return env.fromElements(WORDS);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(JobID.generate());
     }
 }

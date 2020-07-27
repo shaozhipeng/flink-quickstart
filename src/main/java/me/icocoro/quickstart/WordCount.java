@@ -1,11 +1,26 @@
 package me.icocoro.quickstart;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.common.functions.RuntimeContext;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.connectors.elasticsearch.ActionRequestFailureHandler;
+import org.apache.flink.streaming.connectors.elasticsearch.ElasticsearchSinkFunction;
+import org.apache.flink.streaming.connectors.elasticsearch.RequestIndexer;
+import org.apache.flink.streaming.connectors.elasticsearch6.ElasticsearchSink;
 import org.apache.flink.util.Collector;
+import org.apache.http.HttpHost;
+import org.elasticsearch.action.ActionRequest;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.client.Requests;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * WordCount
@@ -37,6 +52,50 @@ public class WordCount {
                 text.flatMap(new Tokenizer())
                         // 根据word分组 对Integer求和
                         .keyBy(0).sum(1);
+
+        List<HttpHost> httpHosts = new ArrayList<>();
+        httpHosts.add(new HttpHost("192.168.13.72", 9200, "http"));
+        httpHosts.add(new HttpHost("192.168.13.73", 9200, "http"));
+        httpHosts.add(new HttpHost("192.168.13.74", 9200, "http"));
+
+        ElasticsearchSink.Builder builder = new ElasticsearchSink.Builder<>(
+                httpHosts,
+                new ElasticsearchSinkFunction<Tuple2<String, Integer>>() {
+
+                    private IndexRequest createIndexRequest(Tuple2<String, Integer> tuple2) {
+                        Map<String, Object> json = new HashMap<>();
+                        json.put("word", tuple2.f0+"中文");
+                        json.put("cnt", tuple2.f1);
+
+                        System.out.println("json: " + json);
+                        return Requests.indexRequest()
+                                .index("index-flink")
+                                .type("wordcount")
+                                .id((String) json.get("word")) // 主键拼接后做个md5
+                                .source(json);
+                    }
+
+                    @Override
+                    public void process(Tuple2<String, Integer> tuple2, RuntimeContext runtimeContext, RequestIndexer requestIndexer) {
+                        requestIndexer.add(createIndexRequest(tuple2));
+                    }
+
+                    private static final long serialVersionUID = -5887591444785181096L;
+                });
+
+        builder.setFailureHandler(new ActionRequestFailureHandler() {
+
+            private static final long serialVersionUID = 8549335619099881608L;
+
+            @Override
+            public void onFailure(ActionRequest actionRequest, Throwable throwable, int i, RequestIndexer requestIndexer) throws Throwable {
+
+            }
+        });
+
+        builder.setBulkFlushMaxActions(1);
+
+        counts.addSink(builder.build());
 
         // 输出结果
         if (params.has("output")) {
