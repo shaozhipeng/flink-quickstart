@@ -71,23 +71,23 @@
 扫描文末二维码关注公众号回复关键词即可领取。
 
 学习视频  
-1.【远程班Linux课程 关键词：Linux】
-2.【
-      01. 大数据实时计算系统实践
-      02. Flink入门实战
-      03. flink无代码
-      关键词：Flink
-    】
-3. 【ApacheSpark24andBeyond演进PDF 关键词：Spark24】
-4. 【Java面试视频 福利！Java面试视频分享】
-5. 【SSM到Spring Boot 从零开发校园商铺平台 关键词：SSMSpring】
-6. 【Java天气项目 关键词：JavaTQ】
-7. 【Linux高级架构师完整视频 关键词：LinuxGJ】
-8. 【上海交大算法与数据结构 关键词：SuanFa】
-9. 【Google Bigtable (中文版).pdf 关键词：Bigtable】
-10. 【Kylin大数据实战学习教程 关键词：Kylin】
-11. 【大数据与ODPS 关键词：ODPS】
-12. 【Java并发编程与高并发解决方案 关键词：Java高并发】
+1.【远程班Linux课程 关键词：Linux】  
+2.【  
+      01. 大数据实时计算系统实践  
+      02. Flink入门实战  
+      03. flink无代码  
+      关键词：Flink  
+    】  
+3. 【ApacheSpark24andBeyond演进PDF 关键词：Spark24】  
+4. 【Java面试视频 福利！Java面试视频分享】  
+5. 【SSM到Spring Boot 从零开发校园商铺平台 关键词：SSMSpring】  
+6. 【Java天气项目 关键词：JavaTQ】  
+7. 【Linux高级架构师完整视频 关键词：LinuxGJ】  
+8. 【上海交大算法与数据结构 关键词：SuanFa】  
+9. 【Google Bigtable (中文版).pdf 关键词：Bigtable】  
+10. 【Kylin大数据实战学习教程 关键词：Kylin】  
+11. 【大数据与ODPS 关键词：ODPS】  
+12. 【Java并发编程与高并发解决方案 关键词：Java高并发】  
 
 ![](https://camo.githubusercontent.com/70cb12269608b70c64085763ea3396f55fd53e7f/687474703a2f2f696d616765732e69636f636f726f2e6d652f696d616765732f6e65772f7172636f64655f666f725f67685f3135666565336130333739375f3235382e6a7067)
 
