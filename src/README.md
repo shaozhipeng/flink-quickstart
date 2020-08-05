@@ -1,11 +1,11 @@
 
 ### 技术文章整理分享
 
-[HBase内部探险-一个KeyValue的历险](https://mp.weixin.qq.com/s/8t-plcLfHvlCllVbxHUzrw)
-[HBase内部探险-HBase是怎么存储数据的](https://mp.weixin.qq.com/s/SEmfFQMzfFAL-v7HhHjKjg)
-[HBase内部探险-数据模型](https://mp.weixin.qq.com/s/l3LhPiNsH73HVoX-XYHpAg)
-[数据中台到底怎么建设呢？](https://mp.weixin.qq.com/s/0vxB21txllFoFi9umNGxlw)  
-[到底什么样的企业应该建设数据中台？](http://mp.weixin.qq.com/s?__biz=MzA4NzA5NzE5Ng==&mid=2650229077&idx=1&sn=4cc6d0ef097764ed0db5692bfd38a2df&chksm=883d4356bf4aca40c1e36393cb2e20aee52a78772976b94802b25b94e5ee7b96637dc4d4870a&scene=21#wechat_redirect)  
+[HBase内部探险-一个KeyValue的历险](https://mp.weixin.qq.com/s/8t-plcLfHvlCllVbxHUzrw)  
+[HBase内部探险-HBase是怎么存储数据的](https://mp.weixin.qq.com/s/SEmfFQMzfFAL-v7HhHjKjg)  
+[HBase内部探险-数据模型](https://mp.weixin.qq.com/s/l3LhPiNsH73HVoX-XYHpAg)  
+[数据中台到底怎么建设呢？](https://mp.weixin.qq.com/s/0vxB21txllFoFi9umNGxlw)    
+[到底什么样的企业应该建设数据中台？](http://mp.weixin.qq.com/s?__biz=MzA4NzA5NzE5Ng==&mid=2650229077&idx=1&sn=4cc6d0ef097764ed0db5692bfd38a2df&chksm=883d4356bf4aca40c1e36393cb2e20aee52a78772976b94802b25b94e5ee7b96637dc4d4870a&scene=21#wechat_redirect)    
 [数据中台到底是不是大数据的下一站？](http://mp.weixin.qq.com/s?__biz=MzA4NzA5NzE5Ng==&mid=2650229055&idx=1&sn=322a64a32d4a27f9588ebca1ea129078&chksm=883d433cbf4aca2a8179bb4bf89fac701809f9c77c6940a1ea36848a549bf06d9d5bc1e1531c&scene=21#wechat_redirect)  
 [StreamSets实时采集MySQL数据到HBase](http://mp.weixin.qq.com/s?__biz=MzA4NzA5NzE5Ng==&mid=2650229096&idx=1&sn=99253fe3eab7674406505abfbe3bb65a&chksm=883d436bbf4aca7dfdac820bcc3e2c4a86bb860abdab1b3c163050af7d49e0175d8bfd4f0aad&scene=21#wechat_redirect)  
 [Phoenix Java API配置及使用总结](http://mp.weixin.qq.com/s?__biz=MzA4NzA5NzE5Ng==&mid=2650229059&idx=1&sn=68029b587d64c003c60ad26c0a52c8d1&chksm=883d4340bf4aca567b8d24dafcbc749dd9fbfa3b64fe9ad308e9948251cab7107d9d5119ebf3&scene=21#wechat_redirect)  
